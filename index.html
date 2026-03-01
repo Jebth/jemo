@@ -282,8 +282,11 @@ let overlaySource = [], overlayIdx = 0;
 })();
 
 async function loadProfile() {
-  const { data } = await sb.from('profiles').select('*').eq('id', user.id).single();
-  if (!data) { showView('onboard'); renderOnboard(); return; }
+  const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+  if (!data || error) {
+    showView('onboard');
+    return;
+  }
   profile = data;
   await Promise.all([loadMyMemos(), loadInbox()]);
   showView('app');
@@ -308,6 +311,7 @@ function showView(name) {
   document.getElementById('fab').style.display = name === 'app' ? 'block' : 'none';
   if (name === 'landing') renderLanding();
   if (name === 'auth') renderAuth();
+  if (name === 'onboard') renderOnboard();
 }
 
 // ─── LANDING ───
@@ -380,13 +384,14 @@ function signInGoogle() {
 function renderOnboard() {
   document.getElementById('view-onboard').innerHTML = `
     <div class="onboard-box">
+      <button class="auth-back" onclick="showView('landing')" style="margin-bottom:20px;display:inline-block;">← Back to Je's Memo Box</button>
       <div class="onboard-title">Set up your memo space</div>
-      <div class="onboard-desc">Pick a name — it'll blend with "mo" to become your personal memo brand. <em>Alex</em> becomes <strong>Alexmo</strong>, <em>Sam</em> becomes <strong>Sammo</strong>.</div>
+      <div class="onboard-desc">Pick a name — it'll blend with "mo" to become your personal brand. <em>Alex</em> → <strong>Alexmo</strong>, <em>Sam</em> → <strong>Sammo</strong>.</div>
       <div class="field-group"><label>Your Preferred Name</label><input id="obName" maxlength="12" placeholder="e.g. Alex, Sam, Maya..." oninput="previewName(this.value)"></div>
-      <div class="field-group"><label>Username (for your public link)</label><input id="obUser" maxlength="20" placeholder="letters, numbers, underscores"></div>
+      <div class="field-group"><label>Username</label><input id="obUser" maxlength="20" placeholder="letters and numbers only, e.g. je"></div>
       <div class="name-preview" id="namePreview"><span class="mo">—mo</span></div>
-      <div class="name-preview-hint">← Your memo box name</div>
-      <div style="display:flex;justify-content:flex-end;">
+      <div class="name-preview-hint">← Your memo box name preview</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px;">
         <button class="btn-primary" onclick="saveOnboard()">Create My Space →</button>
       </div>
     </div>
