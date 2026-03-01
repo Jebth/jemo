@@ -253,19 +253,12 @@ let overlaySource = [], overlayIdx = 0;
 
 // ─── INIT ───
 (async () => {
-  // Handle OAuth callback — Supabase puts tokens in the URL hash after redirect
-  if (window.location.hash && window.location.hash.includes('access_token')) {
-    const { data: { session }, error } = await sb.auth.getSession();
-    if (session?.user) {
-      user = session.user;
-      // Clean up the URL hash
-      history.replaceState(null, '', window.location.pathname);
-      await loadProfile();
-      return;
-    }
-  }
+  // Always show landing immediately so screen is never blank
+  showView('landing');
 
+  // Listen for auth changes (handles OAuth redirect callback automatically)
   sb.auth.onAuthStateChange(async (event, session) => {
+    console.log('Auth event:', event, session?.user?.email);
     if (event === 'SIGNED_IN' && session?.user) {
       user = session.user;
       history.replaceState(null, '', window.location.pathname);
@@ -276,22 +269,32 @@ let overlaySource = [], overlayIdx = 0;
     }
   });
 
+  // Also check if already logged in on page load
   const { data: { session } } = await sb.auth.getSession();
-  if (session?.user) { user = session.user; await loadProfile(); }
-  else showView('landing');
+  if (session?.user) {
+    user = session.user;
+    await loadProfile();
+  }
 })();
 
 async function loadProfile() {
-  const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
-  if (!data || error) {
+  try {
+    const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+    // No profile yet — go to onboarding
+    if (!data) {
+      showView('onboard');
+      return;
+    }
+    profile = data;
+    await Promise.all([loadMyMemos(), loadInbox()]);
+    showView('app');
+    renderNav();
+    renderMemosPanel();
+  } catch (err) {
+    // Any error → show onboarding so user isn't stuck on blank screen
+    console.error('loadProfile error:', err);
     showView('onboard');
-    return;
   }
-  profile = data;
-  await Promise.all([loadMyMemos(), loadInbox()]);
-  showView('app');
-  renderNav();
-  renderMemosPanel();
 }
 
 async function loadMyMemos() {
@@ -750,8 +753,13 @@ async function saveQuickMemo() {
 }
 
 // ─── SIGN OUT ───
-async function signOut() {
+async async function signOut() {
   await sb.auth.signOut();
+  user = null;
+  profile = null;
+  myMemos = [];
+  inbox = [];
+  showView('landing');
 }
 
 // ─── UTILS ───
