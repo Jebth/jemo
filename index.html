@@ -253,10 +253,29 @@ let overlaySource = [], overlayIdx = 0;
 
 // ─── INIT ───
 (async () => {
+  // Handle OAuth callback — Supabase puts tokens in the URL hash after redirect
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    const { data: { session }, error } = await sb.auth.getSession();
+    if (session?.user) {
+      user = session.user;
+      // Clean up the URL hash
+      history.replaceState(null, '', window.location.pathname);
+      await loadProfile();
+      return;
+    }
+  }
+
   sb.auth.onAuthStateChange(async (event, session) => {
-    if (session?.user) { user = session.user; await loadProfile(); }
-    else { user = null; profile = null; showView('landing'); }
+    if (event === 'SIGNED_IN' && session?.user) {
+      user = session.user;
+      history.replaceState(null, '', window.location.pathname);
+      await loadProfile();
+    } else if (event === 'SIGNED_OUT') {
+      user = null; profile = null;
+      showView('landing');
+    }
   });
+
   const { data: { session } } = await sb.auth.getSession();
   if (session?.user) { user = session.user; await loadProfile(); }
   else showView('landing');
