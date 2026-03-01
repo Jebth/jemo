@@ -359,7 +359,17 @@ function renderAuth() {
 }
 
 async function signInGoogle() {
-  await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+  const btn = document.getElementById('btn-google-signin');
+  if (btn) { btn.textContent = 'Opening Google...'; btn.disabled = true; }
+  const redirectTo = 'https://jemo-delta.vercel.app/';
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo }
+  });
+  if (error) {
+    toast('Sign in error: ' + error.message);
+    if (btn) { btn.textContent = 'Continue with Google'; btn.disabled = false; }
+  }
 }
 
 // ─── ONBOARD ───
