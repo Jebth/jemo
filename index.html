@@ -358,18 +358,8 @@ function renderAuth() {
   document.getElementById('btn-auth-back').addEventListener('click', () => showView('landing'));
 }
 
-async function signInGoogle() {
-  const btn = document.getElementById('btn-google-signin');
-  if (btn) { btn.textContent = 'Opening Google...'; btn.disabled = true; }
-  const redirectTo = 'https://jemo-delta.vercel.app/';
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo }
-  });
-  if (error) {
-    toast('Sign in error: ' + error.message);
-    if (btn) { btn.textContent = 'Continue with Google'; btn.disabled = false; }
-  }
+function signInGoogle() {
+  window.location.href = 'https://scbrvlyxmewfnrzlmibr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://jemo-delta.vercel.app/';
 }
 
 // ─── ONBOARD ───
