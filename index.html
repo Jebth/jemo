@@ -440,7 +440,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <p>The star button associates you with someone. Associated users get pinned to your explore view. Some accounts are <em>curtained</em> — you must associate with them before you can send memos or view their space.</p>
     </div>
     <div class="tut-step">
-      <h4>\ud83d\udd12 Curtained Accounts</h4>
+      <h4>🔒 Curtained Accounts</h4>
       <p>Curtained cards are blurred and locked. Click the star to request association — the request goes to their inbox. Once they accept (or it's mutual), the curtain lifts.</p>
     </div>
     <div class="tut-step">
@@ -448,7 +448,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <p>Click <strong>Send \u2192</strong> on any card to drop someone a memo. You can attach images and share your location too.</p>
     </div>
     <div class="tut-step">
-      <h4>\ud83d\udcc4 View Public Memos</h4>
+      <h4>📄 View Public Memos</h4>
       <p>Click <strong>View</strong> on a card to browse their public memo box — memos they've chosen to share with everyone.</p>
     </div>
     <div style="display:flex;justify-content:flex-end;margin-top:18px">
@@ -850,7 +850,7 @@ function renderMemosPanel(){
         <span>${vis.hideDate?'<span style="filter:blur(4px)">'+fmtD(m.created_at)+'</span>':fmtD(m.created_at)}</span>
         <div style="display:flex;gap:3px;align-items:center">
           ${isPub?`<span class="bpub" onclick="event.stopPropagation();openVis('${m.id}')" title="Visibility settings">public \u270e</span>`:''}
-          <button class="mca" style="opacity:1;font-size:.6rem" onclick="event.stopPropagation();togglePub('${m.id}',${isPub})" title="${isPub?'Make private':'Make public'}">${isPub?'\ud83d\udc41':'publish'}</button>
+          <button class="mca" style="opacity:1;font-size:.6rem" onclick="event.stopPropagation();togglePub('${m.id}',${isPub})" title="${isPub?'Make private':'Make public'}">${isPub?'👁':'publish'}</button>
         </div>
       </div>
       ${m.image_data?`<img class="mcimg" src="${vis.hideImage?'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7':m.image_data}" alt="" onclick="event.stopPropagation();previewImg('${m.image_data}','${vis.hideImage?'blurred':''}')">`:''}
@@ -963,10 +963,10 @@ function renderInboxPanel(){
     return `<div class="ii">
       <div style="flex:1;min-width:0">
         <div class="iifrom">From: ${esc(m.from_name)} \u00b7 ${fmtD(m.created_at)}</div>
-        ${isJe&&m.sender_email?`<div class="iiemail">\ud83d\udce7 ${esc(m.sender_email)}</div>`:''}
+        ${isJe&&m.sender_email?`<div class="iiemail">📧 ${esc(m.sender_email)}</div>`:''}
         <div class="iititle">${esc(m.title)}</div>
         <div class="iibody">${esc(m.content)}</div>
-        ${m.image_data?`<img class="iiimg" src="${m.image_data}" style="filter:${vis.hideImage?'blur(8px)':'none'}" alt="" onclick="previewImg('${m.image_data}','${vis.hideImage&&!isJe?\"blurred\":\"\"}')">`:''}
+        ${m.image_data?`<img class="iiimg" src="${m.image_data}" alt="" onclick="previewImg('${m.image_data}','')">`:''}
         ${locStr?`<div class="iiloc">${locStr}</div>`:''}
       </div>
       <div class="iiacts">
@@ -1033,7 +1033,7 @@ async function sendMemoBack(){
 }
 
 function parseLoc(raw){
-  try{const d=JSON.parse(raw);return `\ud83d\udccd ${d.lat}, ${d.lng} \u2014 <a href="https://maps.google.com/?q=${d.lat},${d.lng}" target="_blank" style="color:var(--brown)">View map</a>`;}
+  try{const d=JSON.parse(raw);return `📍 ${d.lat}, ${d.lng} \u2014 <a href="https://maps.google.com/?q=${d.lat},${d.lng}" target="_blank" style="color:var(--brown)">View map</a>`;}
   catch{return raw;}
 }
 async function saveFromInbox(id){
@@ -1105,7 +1105,7 @@ function renderPCards(people){
         <div class="curtain-layer">
           <div class="curtain-rods"></div>
           <div class="curtain-folds"></div>
-          <div class="curtain-msg">\ud83d\udd12 curtained</div>
+          <div class="curtain-msg">🔒 curtained</div>
           <button class="pcbtn" style="position:relative;z-index:2" onclick="requestAssoc('${esc(per.username)}','${esc(per.memo_name)}')">${starSvg} Request to associate</button>
         </div>
       </div>`;
@@ -1184,7 +1184,7 @@ async function viewPersonMemos(username,memoName){
         <span>${fmtD(m.created_at)}</span>
         <span class="fbadge ${badgeCls}">${fromLabel}</span>
       </div>
-      ${m.image_data?`<img style="width:100%;max-height:60px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);cursor:pointer" src="${m.image_data}" style="filter:${vis.hideImage?'blur(8px)':'none'}" alt="" onclick="previewImg('${m.image_data}','${vis.hideImage&&!isJe?\"blurred\":\"\"}')">`:''}
+      ${m.image_data?`<img style="width:100%;max-height:60px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);cursor:pointer" src="${m.image_data}" alt="" onclick="previewImg('${m.image_data}',vis.hideImage&&!isJe?'blurred':'')">`:''}
       <div class="pmtitle">${esc(m.title)}</div>
       <div class="pmbody">${esc(m.content)}</div>
     </div>`;
