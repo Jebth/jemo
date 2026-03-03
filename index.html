@@ -11,37 +11,52 @@
 *{margin:0;padding:0;box-sizing:border-box;}html,body{height:100%;}
 body{background:var(--cream);background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,var(--line) 28px);font-family:'DM Mono',monospace;color:var(--ink);min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
-#intro{position:fixed;inset:0;z-index:9000;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:opacity 0.6s,visibility 0.6s;}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:9000;background:var(--cream);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;transition:opacity 0.6s,visibility 0.6s;}
 #intro.hide{opacity:0;visibility:hidden;pointer-events:none;}
-.ig{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-style:italic;opacity:0;transform:translateY(8px);animation:fup .7s .2s forwards;}
-.is{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fup .7s .55s forwards;}
-.il{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:900;letter-spacing:-3px;opacity:0;animation:fup .7s .9s forwards;}
+.ig{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-style:italic;opacity:0;transform:translateY(8px);animation:fup .8s .2s forwards;}
+.is{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fup .8s .6s forwards;}
+.il{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:900;letter-spacing:-3px;opacity:0;animation:fup .8s 1s forwards;}
 .il span{color:var(--amber);font-style:italic;}
-.idots{display:flex;gap:5px;margin-top:4px;opacity:0;animation:fup .4s 1.4s forwards;}
+.idots{display:flex;gap:5px;margin-top:4px;opacity:0;animation:fup .4s 1.5s forwards;}
 .idot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:dp 1.1s infinite;}
 .idot:nth-child(2){animation-delay:.18s;}.idot:nth-child(3){animation-delay:.36s;}
 @keyframes fup{to{opacity:1;transform:translateY(0);}}@keyframes dp{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:1;transform:scale(1.2);}}
+
+/* VIEWS */
 .view{display:none;min-height:100vh;position:relative;z-index:1;}.view.active{display:block;}
 #view-landing.active{display:flex!important;flex-direction:column;align-items:center;padding:56px 24px 120px;}
 #view-auth.active{display:flex!important;align-items:center;justify-content:center;min-height:100vh;padding:36px 20px;}
 #view-onboard.active{display:flex!important;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+
+/* LANDING */
 .jlogo{font-family:'Playfair Display',serif;font-size:clamp(4.2rem,11vw,8rem);font-weight:900;line-height:.9;letter-spacing:-4px;}
 .jlogo .a{color:var(--amber);font-style:italic;}
 .jtag{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-top:10px;}
 .lsub{font-size:.73rem;color:var(--muted);margin-top:12px;max-width:370px;line-height:1.9;text-align:center;}
 .sbox{width:100%;max-width:500px;background:var(--card);border:1.5px solid var(--ink);padding:30px;position:relative;box-shadow:var(--shadow);margin-top:40px;}
 .sbox::before{content:'MEMO FOR JE';position:absolute;top:-10px;left:18px;background:var(--card);padding:0 7px;font-size:.55rem;letter-spacing:.22em;color:var(--amber);}
+
+/* ENVELOPE COUNTER */
+.env-counter{position:fixed;bottom:34px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--ink);padding:10px 18px;box-shadow:var(--shadow);z-index:50;opacity:0;transition:opacity .4s;pointer-events:none;}
+.env-counter.show{opacity:1;pointer-events:all;}
+.env-fly{font-size:1.4rem;animation:envfly 2s ease-in-out infinite;}
+@keyframes envfly{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-6px) rotate(5deg);}}
+.env-count{font-size:.62rem;color:var(--ink);}
+.env-badge{background:#c0392b;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:bold;}
+
+/* ATTACH ROW */
 .arow{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
 .abtn{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.09em;padding:6px 12px;border:1.5px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;white-space:nowrap;position:relative;overflow:hidden;}
-.abtn:hover,.abtn.on{border-color:var(--amber);color:var(--amber);}.abtn.on{background:rgba(200,132,74,.07);}
-.abtn.locbtn.on::before{content:'';position:absolute;width:130%;height:150%;background:linear-gradient(90deg,transparent,rgba(200,132,74,.45),transparent);top:-25%;left:-115%;animation:orbit 1.5s linear infinite;}
+.abtn:hover,.abtn.on{border-color:var(--amber);color:var(--amber);background:rgba(200,132,74,.07);}
+.abtn.locbtn.on::before{content:'';position:absolute;width:130%;height:150%;background:linear-gradient(90deg,transparent,rgba(200,132,74,.5),transparent);top:-25%;left:-115%;animation:orbit 1.4s linear infinite;}
 @keyframes orbit{to{left:115%;}}
-.abtn.locbtn.on{box-shadow:0 0 0 1.5px var(--amber);animation:pulseborder 1.5s ease-in-out infinite;}
-@keyframes pulseborder{0%,100%{box-shadow:0 0 0 1.5px rgba(200,132,74,.4);}50%{box-shadow:0 0 0 2px rgba(200,132,74,1);}}
+.abtn.locbtn.on{animation:pulseborder 1.4s ease-in-out infinite;}
+@keyframes pulseborder{0%,100%{box-shadow:0 0 0 1.5px rgba(200,132,74,.4);}50%{box-shadow:0 0 0 2.5px rgba(200,132,74,1);}}
 .imgprev{margin-bottom:10px;display:none;position:relative;}
 .imgprev img{max-width:100%;max-height:140px;object-fit:cover;border:1px solid var(--line);}
 .rimgbtn{position:absolute;top:3px;right:3px;background:var(--ink);color:var(--cream);border:none;font-size:.7rem;width:18px;height:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.locinfo{font-size:.58rem;color:var(--amber);margin-bottom:10px;display:none;padding:5px 9px;background:rgba(200,132,74,.07);border:1px solid rgba(200,132,74,.2);}
 .signin-req-card{position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(24,17,10,.5);opacity:0;pointer-events:none;transition:opacity .2s;}
 .signin-req-card.open{opacity:1;pointer-events:all;}
 .src-inner{background:var(--card);border:1.5px solid var(--ink);padding:28px;max-width:300px;width:100%;text-align:center;box-shadow:var(--shadow);}
@@ -50,6 +65,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .form-footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
 .plane-btn{background:none;border:none;cursor:pointer;color:var(--amber);opacity:.7;transition:opacity .2s,transform .2s;padding:4px;}
 .plane-btn:hover{opacity:1;transform:translateX(3px) rotate(-10deg);}
+
+/* AUTH */
 .abox{background:var(--card);border:1.5px solid var(--ink);padding:34px 30px;width:100%;max-width:355px;box-shadow:var(--shadow);text-align:center;}
 .alogo{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;letter-spacing:-2px;margin-bottom:4px;}
 .alogo span{color:var(--amber);font-style:italic;}
@@ -59,20 +76,31 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .adiv{display:flex;align-items:center;gap:8px;margin:13px 0;font-size:.56rem;color:var(--muted);}
 .adiv::before,.adiv::after{content:'';flex:1;height:1px;background:var(--line);}
 .aerr{font-size:.62rem;color:#8B3C3C;min-height:14px;text-align:left;margin-bottom:7px;}
+
+/* ONBOARD */
 .obbox{background:var(--card);border:1.5px solid var(--ink);padding:26px;width:100%;max-width:430px;box-shadow:var(--shadow);}
 .obtitle{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:5px;}
 .obdesc{font-size:.66rem;color:var(--muted);line-height:1.8;margin-bottom:14px;}
 .nprev{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;letter-spacing:-2px;margin:9px 0 2px;min-height:40px;}
 .nprev .mo{color:var(--amber);font-style:italic;}
 .nprevh{font-size:.52rem;color:var(--muted);letter-spacing:.12em;margin-bottom:14px;}
+
+/* FIELDS */
 .fg{margin-bottom:15px;}.fg label{display:block;font-size:.54rem;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
 .fg input,.fg textarea{width:100%;font-family:'DM Mono',monospace;font-size:.77rem;background:transparent;border:none;border-bottom:1.5px solid var(--line);padding:6px 0;color:var(--ink);outline:none;transition:border-color .2s;resize:none;}
 .fg input:focus,.fg textarea:focus{border-bottom-color:var(--amber);}.fg textarea{height:86px;}
+
+/* BUTTONS */
 .btn{font-family:'DM Mono',monospace;font-size:.67rem;letter-spacing:.13em;text-transform:uppercase;padding:10px 24px;background:var(--ink);color:var(--cream);border:none;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .btn:hover{background:var(--brown);}.btn:disabled{opacity:.5;cursor:not-allowed;}
 .lnk{font-size:.62rem;color:var(--muted);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:'DM Mono',monospace;}
 .lnk:hover{color:var(--brown);}
 .bk{font-size:.58rem;color:var(--muted);cursor:pointer;background:none;border:none;font-family:'DM Mono',monospace;text-decoration:underline;}
+.bsm{font-family:'DM Mono',monospace;font-size:.53rem;padding:5px 10px;border:1.5px solid var(--ink);background:none;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.bsm:hover{background:var(--ink);color:var(--cream);}
+.bsm.d:hover{background:#8B3C3C;border-color:#8B3C3C;color:white;}
+
+/* APP */
 #view-app.active{display:flex!important;flex-direction:column;min-height:100vh;}
 .appnav{display:flex;align-items:center;justify-content:space-between;padding:13px 30px;border-bottom:1.5px solid var(--line);background:rgba(246,241,233,.96);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);gap:10px;}
 .nbrand{flex-shrink:0;}.nlogo{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:900;letter-spacing:-1px;line-height:1;}
@@ -96,49 +124,64 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .panel{display:none;}.panel.on{display:block;}
 .sh{font-family:'Playfair Display',serif;font-size:.92rem;font-style:italic;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:11px;}
 .sh::after{content:'';flex:1;height:1px;background:var(--line);}
+
+/* WRITE BOX */
 .wp{background:var(--card);border:1.5px solid var(--ink);padding:26px;position:relative;box-shadow:var(--shadow);max-width:570px;margin-bottom:26px;}
 .wplbl{position:absolute;top:-9px;left:16px;background:var(--card);padding:0 6px;font-size:.53rem;letter-spacing:.2em;color:var(--amber);}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px;}
 .fchk{display:flex;align-items:center;gap:6px;font-size:.63rem;color:var(--muted);cursor:pointer;margin-top:7px;}
 .fchk input{width:13px;height:13px;accent-color:var(--amber);cursor:pointer;}
-.iicon{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--muted);font-size:.52rem;color:var(--muted);cursor:pointer;margin-left:5px;vertical-align:middle;transition:all .15s;user-select:none;position:relative;}
+.iicon{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--muted);font-size:.52rem;color:var(--muted);cursor:pointer;margin-left:5px;vertical-align:middle;position:relative;user-select:none;}
 .iicon:hover{border-color:var(--amber);color:var(--amber);}
-.itooltip{position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:.58rem;padding:7px 10px;white-space:normal;width:200px;line-height:1.6;pointer-events:none;opacity:0;transition:opacity .15s;z-index:50;}
+.itooltip{position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-size:.56rem;padding:6px 9px;white-space:normal;width:195px;line-height:1.55;pointer-events:none;opacity:0;transition:opacity .15s;z-index:50;}
 .iicon:hover .itooltip{opacity:1;}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:15px;margin-bottom:28px;}
-.mc{background:var(--pale);border:1px solid rgba(120,80,45,.15);padding:18px 15px 28px;position:relative;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:2px 3px 10px rgba(24,17,10,.07);}
-.mc::before{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:38px;height:12px;background:rgba(200,132,74,.2);border-radius:1px;}
-.mc:hover{transform:translateY(-3px);box-shadow:4px 8px 17px rgba(24,17,10,.1);}
+
+/* MEMO GRID */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:14px;margin-bottom:26px;}
+.mc{background:var(--pale);border:1px solid rgba(120,80,45,.15);padding:17px 14px 28px;position:relative;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:2px 3px 10px rgba(24,17,10,.07);}
+.mc::before{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:36px;height:12px;background:rgba(200,132,74,.2);border-radius:1px;}
+.mc:hover{transform:translateY(-3px);box-shadow:4px 8px 16px rgba(24,17,10,.1);}
 .mc.r1{transform:rotate(-1deg);}.mc.r1:hover{transform:rotate(-.2deg) translateY(-3px);}
 .mc.r2{transform:rotate(.6deg);}.mc.r2:hover{transform:rotate(.1deg) translateY(-3px);}
-.mcmeta{font-size:.52rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:4px;}
-.bpub{background:var(--brown);color:white;padding:1px 5px;font-size:.47rem;}
-.mctitle{font-family:'Playfair Display',serif;font-size:.86rem;font-weight:700;margin-bottom:5px;line-height:1.3;}
-.mcbody{font-size:.64rem;line-height:1.65;color:rgba(24,17,10,.6);overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;white-space:pre-wrap;}
-.mcimg{width:100%;max-height:75px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);}
+.mcmeta{font-size:.52rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:4px;flex-wrap:wrap;}
+.bpub{background:var(--brown);color:white;padding:1px 5px;font-size:.46rem;cursor:pointer;}
+.bpub:hover{background:var(--amber);}
+.mctitle{font-family:'Playfair Display',serif;font-size:.85rem;font-weight:700;margin-bottom:5px;line-height:1.3;}
+.mcbody{font-size:.63rem;line-height:1.65;color:rgba(24,17,10,.6);overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;white-space:pre-wrap;}
+.mcimg{width:100%;max-height:75px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);cursor:pointer;}
+.mcimg:hover{opacity:.9;}
 .mcacts{position:absolute;bottom:6px;right:8px;display:flex;gap:4px;opacity:0;transition:opacity .2s;}
 .mc:hover .mcacts{opacity:1;}
 .mca{font-size:.51rem;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;padding:1px 3px;}
 .mca:hover{color:var(--ink);}.mca.d:hover{color:#8B3C3C;}
+
+/* INBOX */
 .ii{border:1.5px solid var(--line);padding:13px 15px;margin-bottom:8px;background:white;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;transition:border-color .2s;}
 .ii:hover{border-color:var(--amber);}
 .iifrom{font-size:.52rem;color:var(--amber);letter-spacing:.09em;text-transform:uppercase;margin-bottom:2px;}
 .iiemail{font-size:.51rem;color:var(--brown);margin-top:1px;font-style:italic;}
 .iititle{font-family:'Playfair Display',serif;font-size:.86rem;margin-bottom:3px;}
 .iibody{font-size:.64rem;color:rgba(24,17,10,.6);line-height:1.55;}
-.iiimg{max-width:75px;max-height:55px;object-fit:cover;border:1px solid var(--line);margin-top:5px;}
+.iiimg{max-width:80px;max-height:60px;object-fit:cover;border:1px solid var(--line);margin-top:5px;cursor:pointer;}
+.iiimg:hover{opacity:.85;}
 .iiloc{font-size:.53rem;color:var(--brown);margin-top:3px;}
-.blur-row{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:.5rem;color:var(--muted);}
-.blur-row label{display:flex;align-items:center;gap:3px;cursor:pointer;}
-.iiacts{display:flex;gap:5px;flex-shrink:0;}
+.iiacts{display:flex;gap:5px;flex-shrink:0;flex-direction:column;align-items:flex-end;}
+
+/* MEMOBACK */
+.memoback-btn{font-family:'DM Mono',monospace;font-size:.5rem;padding:4px 8px;border:1px solid var(--brown);background:none;cursor:pointer;color:var(--brown);white-space:nowrap;}
+.memoback-btn:hover{background:var(--brown);color:white;}
+
+/* EXPLORE */
 .exsearch{display:flex;margin-bottom:18px;}
 .exsearch input{flex:1;font-family:'DM Mono',monospace;font-size:.74rem;padding:8px 11px;border:1.5px solid var(--ink);border-right:none;background:white;color:var(--ink);outline:none;}
 .exsbtn{padding:8px 14px;background:var(--ink);color:var(--cream);border:1.5px solid var(--ink);font-family:'DM Mono',monospace;font-size:.6rem;cursor:pointer;}
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:11px;}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:11px;}
+
+/* PERSON CARD */
 .pc{background:white;border:1.5px solid var(--line);padding:14px;position:relative;transition:border-color .2s,transform .15s;}
 .pc:hover{border-color:var(--amber);transform:translateY(-2px);}
 .pc.pinned{border-color:var(--amber);background:var(--pale);}
-.pc.pinned::before{content:'★ JE';position:absolute;top:-8px;left:9px;background:var(--amber);color:white;font-size:.47rem;letter-spacing:.12em;padding:1px 5px;}
+.pc.pinned::before{content:'\2605 JE';position:absolute;top:-8px;left:9px;background:var(--amber);color:white;font-size:.47rem;letter-spacing:.12em;padding:1px 5px;}
 .pc.assoc{border-color:var(--brown);}
 .apin{position:absolute;top:-9px;left:9px;background:var(--brown);border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
 .pcname{font-family:'Playfair Display',serif;font-size:.97rem;font-weight:700;margin-bottom:2px;}
@@ -150,18 +193,45 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .pcbtn.assoc-on{background:var(--brown);color:white;border-color:var(--brown);}
 .pcbtn.vbtn{border-color:var(--muted);color:var(--muted);}
 .pcbtn.vbtn:hover{background:var(--muted);color:white;}
+/* relish counter in top right */
+.relish-ctr{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:3px;font-size:.52rem;color:var(--muted);}
+.relish-ctr button{background:none;border:none;cursor:pointer;font-size:.9rem;line-height:1;padding:0;transition:transform .15s;}
+.relish-ctr button:hover{transform:scale(1.3);}
+.relish-ctr button.on{color:var(--amber);}
+.relish-num{font-size:.52rem;color:var(--muted);min-width:14px;}
+
+/* CURTAIN CARD */
+.pc.curtained{background:var(--pale);overflow:hidden;}
+.curtain-layer{position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,241,233,.1) 0%,rgba(246,241,233,.97) 60%,var(--pale) 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:14px;gap:6px;backdrop-filter:blur(2px);}
+.curtain-rods{position:absolute;top:0;left:0;right:0;height:22px;background:repeating-linear-gradient(90deg,var(--amber) 0,var(--amber) 3px,transparent 3px,transparent 18px);opacity:.35;}
+.curtain-folds{position:absolute;top:22px;left:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,rgba(200,132,74,.08) 0,rgba(200,132,74,.08) 12px,rgba(120,80,45,.05) 12px,rgba(120,80,45,.05) 24px);}
+.curtain-msg{font-size:.55rem;color:var(--muted);letter-spacing:.08em;text-align:center;position:relative;z-index:1;}
+
+/* TUTORIAL OVERLAY */
+.tut-bg{position:fixed;inset:0;z-index:800;background:rgba(24,17,10,.6);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.tut-bg.open{opacity:1;pointer-events:all;}
+.tut-card{background:var(--card);border:1.5px solid var(--ink);padding:28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(24,17,10,.3);max-height:88vh;overflow-y:auto;}
+.tut-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:6px;}
+.tut-step{margin-bottom:14px;padding-left:12px;border-left:2px solid var(--amber);}
+.tut-step h4{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:3px;}
+.tut-step p{font-size:.66rem;color:var(--muted);line-height:1.75;}
+
+/* PUBLIC MEMO viewer */
 .pmgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:11px;margin-top:12px;}
 .pmcard{background:var(--pale);border:1px solid rgba(120,80,45,.15);padding:14px 12px 20px;position:relative;box-shadow:2px 3px 9px rgba(24,17,10,.06);}
 .pmcard::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:32px;height:10px;background:rgba(200,132,74,.2);border-radius:1px;}
-.pmcard.fm{border-left:3px solid var(--amber);}
-.pmcard.fo{border-left:3px solid var(--line);}
+.pmcard.fm{border-left:3px solid var(--amber);}.pmcard.fo{border-left:3px solid var(--line);}
 .pmtag{font-size:.49rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;}
 .pmtitle{font-family:'Playfair Display',serif;font-size:.83rem;font-weight:700;margin-bottom:4px;line-height:1.25;}
 .pmbody{font-size:.62rem;line-height:1.6;color:rgba(24,17,10,.6);overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
 .fbadge{font-size:.47rem;padding:1px 5px;display:inline-block;margin-bottom:4px;}
 .fbm{background:rgba(200,132,74,.15);color:var(--amber);}.fbo{background:rgba(120,80,45,.1);color:var(--muted);}
+
+/* SEND JE */
 .sjwrap{background:var(--card);border:1.5px solid var(--ink);padding:26px;position:relative;box-shadow:var(--shadow);max-width:530px;}
 .sjlbl{position:absolute;top:-9px;left:16px;background:var(--card);padding:0 6px;font-size:.53rem;letter-spacing:.2em;color:var(--amber);}
+
+/* OVERLAYS */
 .ovbg{position:fixed;inset:0;background:rgba(24,17,10,.54);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;padding:14px;}
 .ovbg.open{opacity:1;pointer-events:all;}
 .ovc{background:var(--pale);border:1.5px solid var(--ink);padding:28px;max-width:510px;width:100%;max-height:88vh;overflow-y:auto;position:relative;box-shadow:0 18px 55px rgba(24,17,10,.24);transform:translateY(14px);transition:transform .26s cubic-bezier(.34,1.56,.64,1);}
@@ -172,14 +242,40 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .ovfrom{font-size:.54rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;}
 .ovtitle{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin-bottom:12px;line-height:1.2;}
 .ovbody{font-size:.74rem;line-height:1.9;color:rgba(24,17,10,.8);white-space:pre-wrap;}
-.ovimg{max-width:100%;max-height:190px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line);}
+.ovimg{max-width:100%;max-height:220px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line);}
 .ovloc{font-size:.58rem;color:var(--brown);margin-top:6px;padding:5px 9px;background:rgba(120,80,45,.05);border:1px solid var(--line);}
 .ovdate{font-size:.54rem;color:var(--muted);margin-top:16px;padding-top:11px;border-top:1px solid var(--line);}
 .ovto{font-size:.54rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:3px;}
 .ovtoname{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:16px;}
-.bsm{font-family:'DM Mono',monospace;font-size:.53rem;padding:5px 10px;border:1.5px solid var(--ink);background:none;cursor:pointer;transition:all .15s;white-space:nowrap;}
-.bsm:hover{background:var(--ink);color:var(--cream);}
-.bsm.d:hover{background:#8B3C3C;border-color:#8B3C3C;color:white;}
+
+/* IMAGE PREVIEW OVERLAY (custom frame) */
+.imgov-bg{position:fixed;inset:0;z-index:700;background:rgba(24,17,10,.85);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;padding:20px;}
+.imgov-bg.open{opacity:1;pointer-events:all;}
+.imgov-frame{position:relative;background:var(--card);border:8px solid var(--ink);box-shadow:0 0 0 2px var(--amber),0 20px 60px rgba(24,17,10,.5);max-width:90vw;max-height:85vh;display:flex;align-items:center;justify-content:center;}
+.imgov-frame::before{content:'JEMO';position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:.7rem;font-style:italic;color:var(--cream);letter-spacing:.15em;}
+.imgov-img{max-width:100%;max-height:80vh;object-fit:contain;display:block;}
+.imgov-close{position:absolute;top:-40px;right:0;background:none;border:none;color:var(--cream);font-size:1.4rem;cursor:pointer;}
+.nuhuh{position:absolute;bottom:-44px;left:50%;transform:translateX(-50%);font-size:.68rem;color:var(--cream);white-space:nowrap;display:none;flex-direction:column;align-items:center;gap:2px;}
+.nuhuh.show{display:flex;}
+.nuhuh-arrow{font-size:1rem;animation:twiggle .5s ease-in-out infinite alternate;}
+@keyframes twiggle{0%{transform:rotate(-15deg);}100%{transform:rotate(15deg);}}
+
+/* VISIBILITY SETTINGS PANEL */
+.vispanel{background:var(--card);border:1.5px solid var(--ink);padding:22px;margin-top:16px;max-width:440px;}
+.vispanel-title{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;}
+.visrow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:.66rem;color:var(--muted);}
+.visrow:last-child{border-bottom:none;}
+.toggle-sw{position:relative;width:32px;height:18px;cursor:pointer;}
+.toggle-sw input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;background:var(--line);border-radius:18px;transition:background .2s;}
+.toggle-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;background:white;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle-sw input:checked~.toggle-track{background:var(--amber);}
+.toggle-sw input:checked~.toggle-knob{transform:translateX(14px);}
+
+/* ASSOC REQUEST POPUP */
+.assocreq{background:rgba(200,132,74,.12);border:1px solid var(--amber);padding:10px 14px;margin-bottom:8px;font-size:.63rem;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+
+/* FAB */
 #fab{position:fixed;bottom:78px;right:20px;z-index:190;}
 .fabbtn{width:50px;height:50px;border-radius:50%;background:var(--ink);color:var(--cream);border:none;cursor:pointer;font-size:1.45rem;box-shadow:0 5px 17px rgba(24,17,10,.27);transition:transform .22s cubic-bezier(.34,1.56,.64,1),background .2s;display:flex;align-items:center;justify-content:center;}
 .fabbtn:hover{background:var(--brown);}.fabbtn.open{transform:rotate(45deg);background:var(--amber);}
@@ -192,17 +288,23 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .qpacts{display:flex;justify-content:flex-end;gap:6px;margin-top:7px;}
 .bqm{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.09em;padding:5px 12px;border:1.5px solid var(--ink);background:transparent;cursor:pointer;color:var(--ink);}
 .bqm.s{background:var(--ink);color:var(--cream);}
+
+/* TOAST */
 .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(55px);background:var(--ink);color:var(--cream);padding:8px 20px;font-size:.66rem;letter-spacing:.07em;opacity:0;transition:all .26s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:9999;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
 .empty{text-align:center;padding:44px 0;color:var(--muted);}
 .empty-big{font-family:'Playfair Display',serif;font-size:1.55rem;font-style:italic;display:block;margin-bottom:5px;}
 .loading{display:flex;align-items:center;justify-content:center;height:150px;font-size:.66rem;color:var(--muted);letter-spacing:.14em;}
 .coolmsg{font-size:.67rem;color:#8B3C3C;line-height:1.8;padding:14px;text-align:center;}
-@media(min-width:641px){#fab{bottom:32px;right:28px;}.toast{bottom:32px;}}
+
+@media(min-width:641px){#fab{bottom:32px;right:28px;}.toast{bottom:32px;}.env-counter{bottom:32px;}}
 @media(max-width:640px){.dtabs{display:none;}.mobnav{display:block;}.appnav{padding:10px 14px;}.appcont{padding:18px 14px 88px;}.fr{grid-template-columns:1fr;}.jlogo{font-size:3.8rem;}.sbox,.wp,.sjwrap{padding:20px;}.ovc{padding:22px;}}
 </style>
+
 </head>
 <body>
+
 <!-- INTRO -->
 <div id="intro">
   <div class="ig" id="igreet"></div>
@@ -215,10 +317,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="signin-req-card" id="signinReq" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="src-inner">
     <div class="src-title">Sign in to add images</div>
-    <div class="src-body">You'll need a Jemo account to attach images to your memos. Quick to set up!</div>
-    <button class="btn" style="width:100%;margin-bottom:10px" onclick="document.getElementById('signinReq').classList.remove('open');showView('auth')">Sign in / Create account →</button>
+    <div class="src-body">You need a Jemo account to attach images to memos. Quick to set up!</div>
+    <button class="btn" style="width:100%;margin-bottom:10px" onclick="document.getElementById('signinReq').classList.remove('open');showView('auth')">Sign in / Create account \u2192</button>
     <button class="bk" onclick="document.getElementById('signinReq').classList.remove('open')">Maybe later</button>
   </div>
+</div>
+
+<!-- ENVELOPE COUNTER (logged-out memo back) -->
+<div class="env-counter" id="envCounter">
+  <span class="env-fly">\u2709\ufe0f</span>
+  <span class="env-count">Memos waiting for you</span>
+  <span class="env-badge" id="envBadge">0</span>
 </div>
 
 <!-- VIEWS -->
@@ -257,10 +366,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div class="qphd"><span class="qplbl">Quick Memo</span><span class="qpdt" id="qpdt"></span></div>
     <input class="qi" id="qptitle" placeholder="Title (optional)" style="height:27px;margin-bottom:5px;">
     <textarea class="qi" id="qpbody" placeholder="Quick memo..." style="height:78px;"></textarea>
-    <div class="qpacts">
-      <button class="bqm" onclick="closeQ()">Cancel</button>
-      <button class="bqm s" onclick="saveQ()">Pin →</button>
-    </div>
+    <div class="qpacts"><button class="bqm" onclick="closeQ()">Cancel</button><button class="bqm s" onclick="saveQ()">Pin \u2192</button></div>
   </div>
   <button class="fabbtn" id="fabBtn" onclick="toggleQ()">+</button>
 </div>
@@ -268,38 +374,93 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <!-- MEMO DETAIL OVERLAY -->
 <div class="ovbg" id="ovMemo" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="ovc">
-    <button class="ovx" onclick="document.getElementById('ovMemo').classList.remove('open')">×</button>
+    <button class="ovx" onclick="document.getElementById('ovMemo').classList.remove('open')">\u00d7</button>
     <div class="ovfrom" id="ovFrom"></div>
     <div class="ovtitle" id="ovTitle"></div>
-    <img class="ovimg" id="ovImg" style="display:none">
+    <img class="ovimg" id="ovImg" style="display:none" onclick="previewImg(this.src)">
     <div class="ovbody" id="ovBody"></div>
     <div class="ovloc" id="ovLoc" style="display:none"></div>
     <div class="ovdate" id="ovDate"></div>
   </div>
 </div>
 
-<!-- SEND TO USER OVERLAY -->
+<!-- SEND OVERLAY -->
 <div class="ovbg" id="ovSend" onclick="if(event.target===this)closeSendOv()">
   <div class="ovc">
-    <button class="ovx" onclick="closeSendOv()">×</button>
+    <button class="ovx" onclick="closeSendOv()">\u00d7</button>
     <div class="ovto">Sending memo to</div>
     <div class="ovtoname" id="ovSendName"></div>
     <div id="ovSendBody"></div>
   </div>
 </div>
 
-<!-- PERSON MEMOS OVERLAY -->
+<!-- PERSON PUBLIC MEMOS OVERLAY -->
 <div class="ovbg wide" id="ovPerson" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="ovc">
-    <button class="ovx" onclick="document.getElementById('ovPerson').classList.remove('open')">×</button>
+    <button class="ovx" onclick="document.getElementById('ovPerson').classList.remove('open')">\u00d7</button>
     <div class="ovfrom" id="pvFrom"></div>
     <div class="ovtitle" id="pvTitle"></div>
     <div id="pvContent"></div>
   </div>
 </div>
 
+<!-- VISIBILITY SETTINGS OVERLAY -->
+<div class="ovbg" id="ovVis" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="ovc" style="max-width:400px">
+    <button class="ovx" onclick="document.getElementById('ovVis').classList.remove('open')">\u00d7</button>
+    <div class="ovfrom">Visibility settings</div>
+    <div class="ovtitle" id="visTitle"></div>
+    <div id="visBody"></div>
+  </div>
+</div>
+
+<!-- IMAGE PREVIEW OVERLAY -->
+<div class="imgov-bg" id="imgOv" onclick="if(event.target===this)closeImgOv()">
+  <div class="imgov-frame">
+    <button class="imgov-close" onclick="closeImgOv()">\u00d7</button>
+    <img class="imgov-img" id="imgOvImg" src="" alt="">
+    <div class="nuhuh" id="nuhuh">
+      <span class="nuhuh-arrow">\u261d\ufe0f</span>
+      <span>nuh uh</span>
+    </div>
+  </div>
+</div>
+
+<!-- TUTORIAL OVERLAY -->
+<div class="tut-bg" id="tutOv" onclick="if(event.target===this)closeTut()">
+  <div class="tut-card">
+    <div class="tut-title">Welcome to Explore \u2728</div>
+    <p style="font-size:.66rem;color:var(--muted);margin-bottom:18px;line-height:1.7">Here's how everything works in this space.</p>
+    <div class="tut-step">
+      <h4>\u2665 Relish</h4>
+      <p>The heart button on each card lets you relish someone's memo space. It's like a follower system — show appreciation. Start by relishing <strong>Je</strong>!</p>
+    </div>
+    <div class="tut-step">
+      <h4>\u2605 Associate</h4>
+      <p>The star button associates you with someone. Associated users get pinned to your explore view. Some accounts are <em>curtained</em> — you must associate with them before you can send memos or view their space.</p>
+    </div>
+    <div class="tut-step">
+      <h4>\ud83d\udd12 Curtained Accounts</h4>
+      <p>Curtained cards are blurred and locked. Click the star to request association — the request goes to their inbox. Once they accept (or it's mutual), the curtain lifts.</p>
+    </div>
+    <div class="tut-step">
+      <h4>\u2709\ufe0f Send a Memo</h4>
+      <p>Click <strong>Send \u2192</strong> on any card to drop someone a memo. You can attach images and share your location too.</p>
+    </div>
+    <div class="tut-step">
+      <h4>\ud83d\udcc4 View Public Memos</h4>
+      <p>Click <strong>View</strong> on a card to browse their public memo box — memos they've chosen to share with everyone.</p>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:18px">
+      <button class="btn" onclick="closeTut()">Got it \u2192</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
+
 <script>
+
 const sb = supabase.createClient(
   'https://scbrvlyxmewfnrzlmibr.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjYnJ2bHl4bWV3Zm5yemxtaWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzNTc0OTMsImV4cCI6MjA4NzkzMzQ5M30.BPh-K93DTcZtEw0nAKiCDgfxBwsdBsK-tEopAz33nMo',
@@ -312,31 +473,67 @@ let user=null, profile=null, myMemos=[], inbox=[], allPeople=[];
 let activePanel='memos', quickOpen=false, sendTarget=null;
 let locData={};
 let myAssocs = JSON.parse(localStorage.getItem('jemo_assocs')||'[]');
+let myRelishes = JSON.parse(localStorage.getItem('jemo_relishes')||'[]');
+let relishCounts = JSON.parse(localStorage.getItem('jemo_relish_counts')||'{}');
 let wpImg=null, soImg=null, sjImg=null;
+// memo-back storage (logged-out users)
+let memoBackStore = JSON.parse(localStorage.getItem('jemo_memoback')||'[]');
+// visibility settings per memo
+let memoVisibility = JSON.parse(localStorage.getItem('jemo_vis')||'{}');
+let tutShown = localStorage.getItem('jemo_tut')==='1';
+// auto-refresh intervals
+let inboxInterval=null, exploreInterval=null;
 
-// INTRO
-(()=>{
-  const h=new Date().getHours();
-  const g=h<5?'Still up?':h<12?'Good morning':h<14?'Good afternoon':h<18?'Good day':h<22?'Good evening':'Burning midnight oil?';
-  document.getElementById('igreet').textContent=g+'.';
-  setTimeout(()=>document.getElementById('intro').classList.add('hide'),2500);
-})();
+// INTRO — uses timezone offset not just hour for accuracy
+function showIntro(name) {
+  // getHours() returns local browser time — correct by spec
+  const h = new Date().getHours();
+  let phrase;
+  if(h>=5&&h<12) phrase='Good morning';
+  else if(h>=12&&h<15) phrase='Good afternoon';
+  else if(h>=15&&h<18) phrase='Good day';
+  else if(h>=18&&h<21) phrase='Good evening';
+  else if(h>=21||h<2) phrase='Burning midnight oil?';
+  else phrase="Still up?";
+  const greeting = name ? phrase+', '+name+'.' : phrase+'.';
+  document.getElementById('igreet').textContent = greeting;
+  // Personalised sub text
+  const isEl = document.querySelector('.is');
+  if(isEl) isEl.textContent = name ? 'welcome back' : 'welcome to';
+  const intro = document.getElementById('intro');
+  intro.classList.remove('hide');
+  intro.querySelectorAll('.ig,.is,.il,.idots').forEach(el=>{
+    el.style.animation='none'; void el.offsetHeight; el.style.animation='';
+  });
+  setTimeout(()=>intro.classList.add('hide'), 2800);
+}
+showIntro(null); // first load — personalised greeting shown again once profile loads
 
-// INIT — show landing immediately, no loader blocking
+// INIT
 (async()=>{
   showView('landing');
+  updateEnvCounter();
+
   sb.auth.onAuthStateChange(async(ev,session)=>{
     if(ev==='SIGNED_IN'&&session?.user&&(!user||user.id!==session.user.id)){
       user=session.user;
       history.replaceState(null,'',window.location.pathname);
       await loadProfile();
     } else if(ev==='SIGNED_OUT'){
-      user=null;profile=null;showView('landing');
+      user=null;profile=null;
+      clearIntervals();
+      showView('landing');
     }
   });
+
   const {data:{session}}=await sb.auth.getSession();
   if(session?.user){ user=session.user; await loadProfile(); }
 })();
+
+function clearIntervals(){
+  if(inboxInterval){clearInterval(inboxInterval);inboxInterval=null;}
+  if(exploreInterval){clearInterval(exploreInterval);exploreInterval=null;}
+}
 
 async function loadProfile(){
   try{
@@ -344,16 +541,42 @@ async function loadProfile(){
     if(!data){showView('onboard');return;}
     profile=data;
     await Promise.all([loadMyMemos(),loadInbox()]);
-    showView('app');renderNav();renderMemosPanel();
+    // show personalised greeting with user's name
+    showIntro(profile.memo_name);
+    setTimeout(()=>{showView('app');renderNav();renderMemosPanel();},700);
+    // auto-refresh inbox every 20s, explore every 30s
+    clearIntervals();
+    inboxInterval = setInterval(async()=>{
+      if(profile&&activePanel==='inbox'){await loadInbox();renderInboxPanel();updateIBadge();}
+      else if(profile){await loadInbox();updateIBadge();}
+    }, 20000);
+    exploreInterval = setInterval(()=>{
+      if(activePanel==='explore') renderExplorePanel();
+    }, 30000);
   }catch(e){console.error(e);showView('onboard');}
 }
 async function loadMyMemos(){
   const {data}=await sb.from('memos').select('*').eq('user_id',user.id).order('created_at',{ascending:false});
   myMemos=data||[];
+  // Sync vis_settings from DB into local cache
+  (myMemos||[]).forEach(m=>{if(m.vis_settings&&m.vis_settings!=='{}'){try{memoVisibility[m.id]=JSON.parse(m.vis_settings);}catch(e){}}});
 }
 async function loadInbox(){
   const {data}=await sb.from('inbox_messages').select('*').eq('recipient_username',profile.username).order('created_at',{ascending:false}).limit(60);
   inbox=data||[];
+}
+
+// ENVELOPE COUNTER (for logged-out memo-back)
+function updateEnvCounter(){
+  const count = memoBackStore.length;
+  const el = document.getElementById('envCounter');
+  const badge = document.getElementById('envBadge');
+  if(count > 0 && !user){
+    badge.textContent = count;
+    el.classList.add('show');
+  } else {
+    el.classList.remove('show');
+  }
 }
 
 // VIEWS
@@ -361,7 +584,7 @@ function showView(n){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+n).classList.add('active');
   document.getElementById('fab').style.display=n==='app'?'block':'none';
-  if(n==='landing')renderLanding();
+  if(n==='landing'){renderLanding();updateEnvCounter();}
   if(n==='auth')renderAuth('signin');
   if(n==='onboard')renderOnboard();
 }
@@ -388,52 +611,69 @@ function renderLanding(){
           Add Image
         </button>
       </div>
-      <div class="locinfo" id="lLocInfo">📍 Location attached</div>
       <div class="form-footer">
         <button class="plane-btn" onclick="sendToJe()" title="Send memo to Je">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
         </button>
-        <button class="btn" onclick="sendToJe()">Send Memo →</button>
+        <button class="btn" onclick="sendToJe()">Send Memo \u2192</button>
       </div>
     </div>
+    ${memoBackStore.length > 0 ? renderMemoBackSection() : ''}
   `;
   locData['l']=null;
 }
 
-// LOCATION TOGGLE
+function renderMemoBackSection(){
+  return `
+    <div style="width:100%;max-width:500px;margin-top:28px">
+      <div class="sh">Memo replies saved for you</div>
+      ${memoBackStore.map((m,i)=>`
+        <div style="background:var(--card);border:1.5px solid var(--amber);padding:14px;margin-bottom:8px;position:relative">
+          <div style="font-size:.52rem;color:var(--amber);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Reply from Je · ${m.date}</div>
+          <div style="font-family:'Playfair Display',serif;font-size:.9rem;margin-bottom:3px">${esc(m.title)}</div>
+          <div style="font-size:.63rem;color:rgba(24,17,10,.6)">${esc(m.content)}</div>
+          <button onclick="dismissMemoBack(${i})" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:.6rem;color:var(--muted)">dismiss</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function dismissMemoBack(idx){
+  memoBackStore.splice(idx,1);
+  localStorage.setItem('jemo_memoback',JSON.stringify(memoBackStore));
+  renderLanding();updateEnvCounter();
+}
+
+// LOCATION
 function toggleLoc(prefix){
   const btn=document.getElementById(prefix+'LocBtn');
-  const info=document.getElementById(prefix+'LocInfo');
+  if(!btn)return;
   if(locData[prefix]){
-    locData[prefix]=null; btn.classList.remove('on');
-    if(info)info.style.display='none';
-    toast('Location removed'); return;
+    locData[prefix]=null;btn.classList.remove('on');
+    toast('Location removed');return;
   }
+  const origText=btn.innerHTML;
   btn.textContent='Getting...';
   if(!navigator.geolocation){toast('Geolocation not supported');return;}
   navigator.geolocation.getCurrentPosition(pos=>{
     locData[prefix]={lat:pos.coords.latitude.toFixed(5),lng:pos.coords.longitude.toFixed(5)};
     const ico=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`;
-    btn.innerHTML=ico+' Location Shared'; btn.classList.add('on');
-    if(info)info.style.display='block';
-    toast('Location attached ✓');
-  },()=>{
-    btn.innerHTML=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> Share Location`;
-    toast('Location denied');
-  });
+    btn.innerHTML=ico;btn.classList.add('on');
+    toast('Location attached \u2713');
+  },()=>{btn.innerHTML=origText;toast('Location denied');});
 }
 
 async function sendToJe(){
   const ck='jemo_cd_je',bk='jemo_ban_je',sk='jemo_spam_je',now=Date.now();
   const ban=localStorage.getItem(bk);
-  if(ban&&now<+ban){const h=Math.ceil((+ban-now)/3600000);toast(`⛔ Banned ~${h}h left`);return;}
+  if(ban&&now<+ban){const h=Math.ceil((+ban-now)/3600000);toast(`\u26d4 Banned ~${h}h left`);return;}
   const last=localStorage.getItem(ck);
   if(last&&now-+last<CD){
     const s=Math.ceil((CD-(now-+last))/1000);
-    const sc=(+(localStorage.getItem(sk)||0))+1;
-    localStorage.setItem(sk,sc);
-    if(sc>=3){localStorage.setItem(bk,now+BAN);localStorage.removeItem(sk);toast('⛔ Banned 24h.');return;}
-    toast(`⏳ Wait ${s}s`);return;
+    const sc=(+(localStorage.getItem(sk)||0))+1;localStorage.setItem(sk,sc);
+    if(sc>=3){localStorage.setItem(bk,now+BAN);localStorage.removeItem(sk);toast('\u26d4 Banned 24h.');return;}
+    toast(`\u23f3 Wait ${s}s`);return;
   }
   localStorage.removeItem(sk);
   const from=document.getElementById('lFrom').value.trim()||'Anonymous';
@@ -448,14 +688,11 @@ async function sendToJe(){
   });
   if(error){toast('Error: '+error.message);return;}
   localStorage.setItem(ck,now);
-  document.getElementById('lFrom').value='';
-  document.getElementById('lTitle').value='';
-  document.getElementById('lBody').value='';
+  document.getElementById('lFrom').value='';document.getElementById('lTitle').value='';document.getElementById('lBody').value='';
   locData['l']=null;
   const lb=document.getElementById('lLocBtn');
   if(lb){lb.classList.remove('on');lb.innerHTML=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> Share Location`;}
-  const li=document.getElementById('lLocInfo');if(li)li.style.display='none';
-  toast('Memo sent to Je ✓');
+  toast('Memo sent to Je \u2713');
 }
 
 // AUTH
@@ -466,9 +703,9 @@ function renderAuth(mode){
       <div class="alogo">Je<span>mo</span></div>
       <div class="asub">${mode==='signup'?'Create your space':'Sign in'}</div>
       <div class="fg" style="text-align:left"><label>Email</label><input type="email" id="aEmail" placeholder="your@email.com"></div>
-      <div class="fg" style="text-align:left"><label>Password</label><input type="password" id="aPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authGo('${mode}')"></div>
+      <div class="fg" style="text-align:left"><label>Password</label><input type="password" id="aPass" placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" onkeydown="if(event.key==='Enter')authGo('${mode}')"></div>
       <div class="aerr" id="aErr"></div>
-      <button class="btn" style="width:100%" id="aBtn" onclick="authGo('${mode}')">${mode==='signup'?'Create Account →':'Sign In →'}</button>
+      <button class="btn" style="width:100%" id="aBtn" onclick="authGo('${mode}')">${mode==='signup'?'Create Account \u2192':'Sign In \u2192'}</button>
       <div class="adiv">or</div>
       <a class="gbtn" href="https://scbrvlyxmewfnrzlmibr.supabase.co/auth/v1/authorize?provider=google&redirect_to=https://jemo-delta.vercel.app/">
         <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -477,29 +714,29 @@ function renderAuth(mode){
       <div style="text-align:center;margin-top:11px;font-size:.62rem;color:var(--muted)">
         ${mode==='signup'?`Have account? <button class="lnk" onclick="renderAuth('signin')">Sign in</button>`:`No account? <button class="lnk" onclick="renderAuth('signup')">Create one</button>`}
       </div>
-      <div style="text-align:center;margin-top:7px"><button class="bk" onclick="showView('landing')">← Back</button></div>
+      <div style="text-align:center;margin-top:7px"><button class="bk" onclick="showView('landing')">\u2190 Back</button></div>
     </div>
   `;
   setTimeout(()=>{const e=document.getElementById('aEmail');if(e)e.focus();},55);
 }
+
 async function authGo(mode){
   const email=document.getElementById('aEmail').value.trim();
   const pass=document.getElementById('aPass').value;
-  const err=document.getElementById('aErr');
-  const btn=document.getElementById('aBtn');
+  const err=document.getElementById('aErr');const btn=document.getElementById('aBtn');
   err.textContent='';
   if(!email||!pass){err.textContent='Fill in both fields.';return;}
   if(pass.length<6){err.textContent='Password must be 6+ chars.';return;}
   btn.disabled=true;btn.textContent='Loading...';
   if(mode==='signup'){
     const {error}=await sb.auth.signUp({email,password:pass});
-    if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Create Account →';return;}
+    if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Create Account \u2192';return;}
     const {data,error:e2}=await sb.auth.signInWithPassword({email,password:pass});
     if(e2){err.textContent='Account created! Please sign in.';renderAuth('signin');return;}
     user=data.user;await loadProfile();
   } else {
     const {data,error}=await sb.auth.signInWithPassword({email,password:pass});
-    if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Sign In →';return;}
+    if(error){err.textContent=error.message;btn.disabled=false;btn.textContent='Sign In \u2192';return;}
     user=data.user;await loadProfile();
   }
 }
@@ -508,22 +745,22 @@ async function authGo(mode){
 function renderOnboard(){
   document.getElementById('view-onboard').innerHTML=`
     <div class="obbox">
-      <button class="bk" onclick="showView('landing')" style="margin-bottom:14px;display:inline-block">← Back</button>
+      <button class="bk" onclick="showView('landing')" style="margin-bottom:14px;display:inline-block">\u2190 Back</button>
       <div class="obtitle">Set up your space</div>
-      <div class="obdesc">Pick a name — blends with "mo". <em>Alex</em> → <strong>Alexmo</strong></div>
+      <div class="obdesc">Pick a name \u2014 blends with "mo". <em>Alex</em> \u2192 <strong>Alexmo</strong></div>
       <div class="fg"><label>Your Name</label><input id="obName" maxlength="12" placeholder="e.g. Alex, Sam..." oninput="prevN(this.value)"></div>
       <div class="fg"><label>Username</label><input id="obUser" maxlength="20" placeholder="e.g. je, alex, sam123"></div>
-      <div class="nprev" id="nprev"><span class="mo">—mo</span></div>
-      <div class="nprevh">← Your memo box name</div>
+      <div class="nprev" id="nprev"><span class="mo">\u2014mo</span></div>
+      <div class="nprevh">\u2190 Your memo box name</div>
       <div style="display:flex;justify-content:flex-end;margin-top:6px">
-        <button class="btn" onclick="saveOnboard()">Create My Space →</button>
+        <button class="btn" onclick="saveOnboard()">Create My Space \u2192</button>
       </div>
     </div>
   `;
 }
 function prevN(v){
   const el=document.getElementById('nprev');
-  if(!v){el.innerHTML='<span class="mo">—mo</span>';return;}
+  if(!v){el.innerHTML='<span class="mo">\u2014mo</span>';return;}
   el.innerHTML=esc(v[0].toUpperCase()+v.slice(1).toLowerCase())+'<span class="mo">mo</span>';
 }
 async function saveOnboard(){
@@ -561,13 +798,10 @@ function renderNav(){
 function sp(name,btn){
   document.querySelectorAll('.dtab,.mtab').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-  const dt=document.getElementById('dt-'+name);
-  const mt=document.getElementById('mt-'+name);
-  if(dt)dt.classList.add('on');
-  if(mt)mt.classList.add('on');
+  const dt=document.getElementById('dt-'+name);const mt=document.getElementById('mt-'+name);
+  if(dt)dt.classList.add('on');if(mt)mt.classList.add('on');
   if(btn&&btn!==dt&&btn!==mt)btn.classList.add('on');
-  const panel=document.getElementById('panel-'+name);
-  if(panel)panel.classList.add('on');
+  const panel=document.getElementById('panel-'+name);if(panel)panel.classList.add('on');
   activePanel=name;
   if(name==='memos')renderMemosPanel();
   if(name==='inbox')renderInboxPanel();
@@ -575,7 +809,7 @@ function sp(name,btn){
   if(name==='sje')renderSjePanel();
 }
 
-// MY MEMOS
+// MY MEMOS + WRITE
 function renderMemosPanel(){
   const panel=document.getElementById('panel-memos');if(!panel)return;
   const isJe=user.email===JE_EMAIL;
@@ -588,7 +822,7 @@ function renderMemosPanel(){
         <div class="fg" style="padding-top:17px">
           <label class="fchk">
             <input type="checkbox" id="nPublic"> Make public
-            <span class="iicon">ⓘ<span class="itooltip">Public memos appear on your Explore card. Others can view them by clicking your name in Explore.</span></span>
+            <span class="iicon">\u24d8<span class="itooltip">Public memos appear on your Explore card. Others can click View on your card to browse them.</span></span>
           </label>
         </div>
       </div>
@@ -599,37 +833,81 @@ function renderMemosPanel(){
         </button>
         <input type="file" id="wpImgFile" accept="image/*" style="display:none" onchange="handleWpImg(this)">
       </div>
-      <div class="imgprev" id="wpImgPrev"><img id="wpImgThumb"><button class="rimgbtn" onclick="removeWpImg()">×</button></div>`:''}
+      <div class="imgprev" id="wpImgPrev"><img id="wpImgThumb"><button class="rimgbtn" onclick="removeWpImg()">\u00d7</button></div>`:''}
       <div style="display:flex;justify-content:flex-end;margin-top:11px">
-        <button class="btn" onclick="saveMemo()">Pin to Box →</button>
+        <button class="btn" onclick="saveMemo()">Pin to Box \u2192</button>
       </div>
     </div>`;
   if(!myMemos.length){
     panel.innerHTML=writeBox+`<div class="sh">Saved to your box</div><div class="empty"><span class="empty-big">Empty box</span>Write above or use + button!</div>`;return;
   }
   const rot=['','r1','r2','','r2','r1'];
-  panel.innerHTML=writeBox+`
-    <div class="sh">Saved to your box</div>
-    <div class="mgrid">
-      ${myMemos.map((m,i)=>`
-        <div class="mc ${rot[i%6]}" onclick="openMemoOv(${i})">
-          <div class="mcmeta"><span>${fmtD(m.created_at)}</span>${m.is_public?'<span class="bpub">public</span>':''}</div>
-          ${m.image_data?`<img class="mcimg" src="${m.image_data}" alt="">`:''}
-          <div class="mctitle">${esc(m.title)}</div>
-          <div class="mcbody">${esc(m.content)}</div>
-          <div class="mcacts" onclick="event.stopPropagation()">
-            <button class="mca" onclick="togglePub('${m.id}',${m.is_public})">${m.is_public?'private':'public'}</button>
-            <button class="mca d" onclick="delMemo('${m.id}')">× del</button>
-          </div>
-        </div>`).join('')}
+  panel.innerHTML=writeBox+`<div class="sh">Saved to your box</div><div class="mgrid">${myMemos.map((m,i)=>{
+    const vis=memoVisibility[m.id]||{};
+    const isPub=m.is_public;
+    return `<div class="mc ${rot[i%6]}" onclick="openMemoOv(${i})">
+      <div class="mcmeta">
+        <span>${vis.hideDate?'<span style="filter:blur(4px)">'+fmtD(m.created_at)+'</span>':fmtD(m.created_at)}</span>
+        <div style="display:flex;gap:3px;align-items:center">
+          ${isPub?`<span class="bpub" onclick="event.stopPropagation();openVis('${m.id}')" title="Visibility settings">public \u270e</span>`:''}
+          <button class="mca" style="opacity:1;font-size:.6rem" onclick="event.stopPropagation();togglePub('${m.id}',${isPub})" title="${isPub?'Make private':'Make public'}">${isPub?'\ud83d\udc41':'publish'}</button>
+        </div>
+      </div>
+      ${m.image_data?`<img class="mcimg" src="${vis.hideImage?'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7':m.image_data}" alt="" onclick="event.stopPropagation();previewImg('${m.image_data}','${vis.hideImage?'blurred':''}')">`:''}
+      <div class="mctitle" style="${vis.hideTitle?'filter:blur(5px)':''}">${esc(m.title)}</div>
+      <div class="mcbody" style="${vis.hideContent?'filter:blur(5px)':''}">${esc(m.content)}</div>
+      <div class="mcacts" onclick="event.stopPropagation()">
+        ${isPub?`<button class="mca" onclick="openVis('${m.id}')">\u2699 vis</button>`:''}
+        <button class="mca d" onclick="delMemo('${m.id}')">\u00d7 del</button>
+      </div>
     </div>`;
+  }).join('')}</div>`;
 }
+
+// VISIBILITY SETTINGS
+function openVis(memoId){
+  const m=myMemos.find(x=>x.id===memoId);if(!m)return;
+  const vis=memoVisibility[memoId]||{};
+  document.getElementById('visTitle').textContent=m.title;
+  document.getElementById('visBody').innerHTML=`
+    <p style="font-size:.64rem;color:var(--muted);margin-bottom:14px;line-height:1.7">Choose what to blur when your memo is public. Blurred fields show as fuzzy to other users.</p>
+    <div class="vispanel">
+      <div class="vispanel-title">Blur settings for public view</div>
+      ${[
+        ['hideName','Author / From name'],
+        ['hideDate','Date'],
+        ['hideTitle','Title / Subject'],
+        ['hideContent','Memo content'],
+        ['hideImage','Image'],
+        ['hideLoc','Location / IP']
+      ].map(([key,label])=>`
+        <div class="visrow">
+          <span>${label}</span>
+          <label class="toggle-sw">
+            <input type="checkbox" ${vis[key]?'checked':''} onchange="setVis('${memoId}','${key}',this.checked)">
+            <span class="toggle-track"></span>
+            <span class="toggle-knob"></span>
+          </label>
+        </div>
+      `).join('')}
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:14px">
+      <button class="btn" onclick="document.getElementById('ovVis').classList.remove('open');renderMemosPanel()">Done</button>
+    </div>
+  `;
+  document.getElementById('ovVis').classList.add('open');
+}
+function setVis(memoId,key,val){
+  if(!memoVisibility[memoId])memoVisibility[memoId]={};
+  memoVisibility[memoId][key]=val;
+  localStorage.setItem('jemo_vis',JSON.stringify(memoVisibility));
+  // Persist to DB so public viewers see the blur settings
+  sb.from('memos').update({vis_settings:JSON.stringify(memoVisibility[memoId])}).eq('id',memoId).then(()=>{});
+}
+
 function handleWpImg(input){
-  const file=input.files[0];if(!file)return;
-  if(file.size>2*1024*1024){toast('Max 2MB');return;}
-  const r=new FileReader();
-  r.onload=e=>{wpImg=e.target.result;document.getElementById('wpImgThumb').src=wpImg;document.getElementById('wpImgPrev').style.display='block';};
-  r.readAsDataURL(file);
+  const file=input.files[0];if(!file)return;if(file.size>2*1024*1024){toast('Max 2MB');return;}
+  const r=new FileReader();r.onload=e=>{wpImg=e.target.result;document.getElementById('wpImgThumb').src=wpImg;document.getElementById('wpImgPrev').style.display='block';};r.readAsDataURL(file);
 }
 function removeWpImg(){wpImg=null;document.getElementById('wpImgPrev').style.display='none';document.getElementById('wpImgFile').value='';}
 async function saveMemo(t,c,pub,img){
@@ -638,9 +916,9 @@ async function saveMemo(t,c,pub,img){
   const isPublic=pub??document.getElementById('nPublic')?.checked??false;
   const imgData=img??wpImg??null;
   if(!title&&!content){toast('Write something first!');return;}
-  const {data,error}=await sb.from('memos').insert({user_id:user.id,title:title||'untitled',content,is_public:isPublic,image_data:imgData}).select().single();
+  const {data,error}=await sb.from('memos').insert({user_id:user.id,title:title||'untitled',content,is_public:isPublic,image_data:imgData,vis_settings:'{}' }).select().single();
   if(error){toast('Error: '+error.message);return;}
-  myMemos.unshift(data);wpImg=null;toast('Memo pinned! ✓');renderMemosPanel();
+  myMemos.unshift(data);wpImg=null;toast('Memo pinned! \u2713');renderMemosPanel();
 }
 async function delMemo(id){await sb.from('memos').delete().eq('id',id);myMemos=myMemos.filter(m=>m.id!==id);renderMemosPanel();toast('Deleted');}
 async function togglePub(id,cur){
@@ -664,34 +942,98 @@ function openMemoOv(idx){
 function renderInboxPanel(){
   const p=document.getElementById('panel-inbox');
   const isJe=user.email===JE_EMAIL;
+  // Check for assoc requests
+  const assocReqs=inbox.filter(m=>m.title==='[ASSOC_REQUEST]');
+  const normalInbox=inbox.filter(m=>m.title!=='[ASSOC_REQUEST]');
+
   if(!inbox.length){
     p.innerHTML=`<div class="sh">Memos from others</div><div class="empty"><span class="empty-big">All clear</span>Nobody's sent you a memo yet.</div>`;return;
   }
-  p.innerHTML=`<div class="sh">Memos from others</div>`+inbox.map(m=>{
+  p.innerHTML=`<div class="sh">Memos from others</div>`
+  +assocReqs.map(m=>`
+    <div class="assocreq">
+      <span>\u2605 <strong>${esc(m.from_name)}</strong> wants to associate with you</span>
+      <div style="display:flex;gap:5px">
+        <button class="bsm" onclick="acceptAssocReq('${m.id}','${esc(m.from_name)}')">Accept</button>
+        <button class="bsm d" onclick="dismissInbox('${m.id}')">Decline</button>
+      </div>
+    </div>`).join('')
+  +normalInbox.map(m=>{
     const locStr=m.location_data?parseLoc(m.location_data):'';
     return `<div class="ii">
       <div style="flex:1;min-width:0">
-        <div class="iifrom">From: ${esc(m.from_name)} · ${fmtD(m.created_at)}</div>
-        ${isJe&&m.sender_email?`<div class="iiemail" id="em-${m.id}">📧 ${esc(m.sender_email)}
-          <div class="blur-row"><label><input type="checkbox" onchange="blurEl('em-${m.id}',this.checked)"> blur</label></div>
-        </div>`:''}
+        <div class="iifrom">From: ${esc(m.from_name)} \u00b7 ${fmtD(m.created_at)}</div>
+        ${isJe&&m.sender_email?`<div class="iiemail">\ud83d\udce7 ${esc(m.sender_email)}</div>`:''}
         <div class="iititle">${esc(m.title)}</div>
         <div class="iibody">${esc(m.content)}</div>
-        ${m.image_data?`<img class="iiimg" src="${m.image_data}" alt="">`:''}
-        ${locStr?`<div class="iiloc" id="loc-${m.id}">${locStr}
-          <div class="blur-row"><label><input type="checkbox" onchange="blurEl('loc-${m.id}',this.checked)"> blur</label></div>
-        </div>`:''}
+        ${m.image_data?`<img class="iiimg" src="${m.image_data}" style="filter:${vis.hideImage?'blur(8px)':'none'}" alt="" onclick="previewImg('${m.image_data}','${vis.hideImage&&!isJe?\"blurred\":\"\"}')">`:''}
+        ${locStr?`<div class="iiloc">${locStr}</div>`:''}
       </div>
       <div class="iiacts">
         <button class="bsm" onclick="saveFromInbox('${m.id}')">Save</button>
         <button class="bsm d" onclick="dismissInbox('${m.id}')">Dismiss</button>
+        ${m.from_name&&m.from_name!=='Anonymous'?`<button class="memoback-btn" onclick="openMemoBack('${esc(m.from_name)}','${m.id}')">\u21a9 Memo back</button>`:''}
       </div>
     </div>`;
   }).join('');
 }
-function blurEl(id,on){const el=document.getElementById(id);if(el){const first=el.firstChild;el.style.filter=on?'blur(5px)':'none';}}
+
+async function acceptAssocReq(msgId,fromName){
+  // add them to our assocs
+  if(!myAssocs.includes(fromName))myAssocs.push(fromName);
+  localStorage.setItem('jemo_assocs',JSON.stringify(myAssocs));
+  await dismissInbox(msgId);
+  toast(`\u2713 Now associated with ${fromName}`);
+}
+
+// MEMO BACK
+let memoBackTarget=null;
+function openMemoBack(fromName,msgId){
+  memoBackTarget={fromName,msgId};
+  document.getElementById('ovSendName').textContent=fromName;
+  document.getElementById('ovSendBody').innerHTML=`
+    <p style="font-size:.64rem;color:var(--muted);margin-bottom:14px;line-height:1.7">
+      ${user?'Send a memo back. They\'ll see it in their inbox.':'You\'re not logged in — your reply will be saved locally on this device until they check back.'}
+    </p>
+    <div class="fg"><label>Subject</label><input id="mbTitle" placeholder="Re: ..."></div>
+    <div class="fg"><label>Memo</label><textarea id="mbBody" placeholder="Write your reply..."></textarea></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:12px">
+      <button class="btn" onclick="sendMemoBack()">Send Back \u2192</button>
+    </div>
+  `;
+  document.getElementById('ovSend').classList.add('open');
+}
+async function sendMemoBack(){
+  const title=document.getElementById('mbTitle')?.value.trim();
+  const body=document.getElementById('mbBody')?.value.trim();
+  if(!title&&!body){toast('Write something!');return;}
+  if(!memoBackTarget)return;
+  const fromName=memoBackTarget.fromName;
+  const fromLabel=profile?profile.memo_name+'mo (@'+profile.username+')':'Je (reply)';
+
+  // Try to find username matching fromName
+  const {data:recip}=await sb.from('profiles').select('username').ilike('memo_name',fromName).maybeSingle();
+  if(recip?.username){
+    const senderEmail=(recip.username===JE_UN&&user)?user.email:null;
+    const {error}=await sb.from('inbox_messages').insert({
+      from_name:fromLabel,title:title||'(no subject)',content:body,
+      recipient_username:recip.username,sender_email:senderEmail,
+      image_data:null,location_data:null
+    });
+    if(error){toast('Error: '+error.message);return;}
+    toast('Memo back sent \u2713');
+  } else {
+    // save locally for anonymous/unregistered
+    memoBackStore.push({from:fromLabel,to:fromName,title:title||'(no subject)',content:body,date:fmtD(new Date().toISOString())});
+    localStorage.setItem('jemo_memoback',JSON.stringify(memoBackStore));
+    updateEnvCounter();
+    toast('Saved locally — they\'ll see it if they check back \u2713');
+  }
+  closeSendOv();
+}
+
 function parseLoc(raw){
-  try{const d=JSON.parse(raw);return `📍 ${d.lat}, ${d.lng} — <a href="https://maps.google.com/?q=${d.lat},${d.lng}" target="_blank" style="color:var(--brown)">View map</a>`;}
+  try{const d=JSON.parse(raw);return `\ud83d\udccd ${d.lat}, ${d.lng} \u2014 <a href="https://maps.google.com/?q=${d.lat},${d.lng}" target="_blank" style="color:var(--brown)">View map</a>`;}
   catch{return raw;}
 }
 async function saveFromInbox(id){
@@ -704,8 +1046,7 @@ async function dismissInbox(id){
   inbox=inbox.filter(m=>m.id!==id);renderInboxPanel();updateIBadge();toast('Dismissed');
 }
 function updateIBadge(){
-  const dt=document.getElementById('dt-inbox');
-  const mt=document.getElementById('mt-inbox');
+  const dt=document.getElementById('dt-inbox');const mt=document.getElementById('mt-inbox');
   const b=inbox.length?`<span class="ibadge">${inbox.length}</span>`:'';
   if(dt)dt.innerHTML='Inbox'+b;
   if(mt){const ex=mt.querySelector('.mib');if(ex)ex.remove();if(inbox.length){const d=document.createElement('div');d.className='mib';d.textContent=inbox.length;mt.appendChild(d);}}
@@ -714,17 +1055,20 @@ function updateIBadge(){
 // EXPLORE
 async function renderExplorePanel(){
   const p=document.getElementById('panel-explore');
+  const prevSearch=document.getElementById('psearch')?.value||'';
   p.innerHTML=`<div class="sh">Explore memo spaces</div><div class="loading">Loading...</div>`;
-  const {data}=await sb.from('profiles').select('username,memo_name').order('username');
+  const {data}=await sb.from('profiles').select('username,memo_name,is_curtained').order('username');
   allPeople=data||[];
-  buildExplore(allPeople);
+  buildExplore(allPeople,prevSearch);
+  // Show tutorial for new users who haven't seen it
+  if(!tutShown){openTut();}
 }
-function buildExplore(people){
+function buildExplore(people,searchVal){
   const p=document.getElementById('panel-explore');
   p.innerHTML=`
     <div class="sh">Explore memo spaces</div>
     <div class="exsearch">
-      <input id="psearch" placeholder="Search by username or name..." oninput="filterP(this.value)">
+      <input id="psearch" value="${esc(searchVal||'')}" placeholder="Search by username or name..." oninput="filterP(this.value)">
       <button class="exsbtn" onclick="filterP(document.getElementById('psearch').value)">Go</button>
     </div>
     <div class="pgrid" id="pgrid"></div>`;
@@ -739,32 +1083,84 @@ function renderPCards(people){
     if(aA&&!bA)return -1;if(!aA&&bA)return 1;
     return a.username.localeCompare(b.username);
   });
-  const starSvg=`<svg width="8" height="8" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+  const starSvg=`<svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
   g.innerHTML=sorted.map(per=>{
     const isPinned=per.username===JE_UN;
     const isAssoc=myAssocs.includes(per.username);
-    const assocPin=isAssoc&&!isPinned?`<div class="apin">${starSvg}</div>`:'';
+    const isCurtained=per.is_curtained&&!isAssoc&&!isPinned;
+    const cnt=relishCounts[per.username]||0;
+    const iRelished=myRelishes.includes(per.username);
+    const assocPin=isAssoc&&!isPinned?`<div class="apin" style="z-index:2">${starSvg}</div>`:'';
+    const relishBtn=`<div class="relish-ctr">
+      <button class="${iRelished?'on':''}" onclick="event.stopPropagation();toggleRelish('${esc(per.username)}')">\u2665</button>
+      <span class="relish-num">${cnt}</span>
+    </div>`;
+    if(isCurtained){
+      return `<div class="pc curtained">
+        ${relishBtn}
+        <div style="filter:blur(3px);padding:14px">
+          <div class="pcname">${esc(per.memo_name)}<span class="mo">mo</span></div>
+          <div class="pcuser">@${esc(per.username)}</div>
+        </div>
+        <div class="curtain-layer">
+          <div class="curtain-rods"></div>
+          <div class="curtain-folds"></div>
+          <div class="curtain-msg">\ud83d\udd12 curtained</div>
+          <button class="pcbtn" style="position:relative;z-index:2" onclick="requestAssoc('${esc(per.username)}','${esc(per.memo_name)}')">${starSvg} Request to associate</button>
+        </div>
+      </div>`;
+    }
     return `<div class="pc ${isPinned?'pinned':''} ${isAssoc&&!isPinned?'assoc':''}">
       ${assocPin}
+      ${relishBtn}
       <div class="pcname">${esc(per.memo_name)}<span class="mo">mo</span></div>
-      <div class="pcuser">@${esc(per.username)}${isPinned?' · creator':''}</div>
+      <div class="pcuser">@${esc(per.username)}${isPinned?' \u00b7 creator':''}</div>
       <div class="pcbtnrow">
-        <button class="pcbtn" onclick="openSendOv('${esc(per.username)}','${esc(per.memo_name)}')">Send →</button>
+        <button class="pcbtn" onclick="openSendOv('${esc(per.username)}','${esc(per.memo_name)}')">Send \u2192</button>
         <button class="pcbtn vbtn" onclick="viewPersonMemos('${esc(per.username)}','${esc(per.memo_name)}')">View</button>
         ${!isPinned?`<button class="pcbtn ${isAssoc?'assoc-on':''}" onclick="toggleAssoc('${esc(per.username)}')" title="${isAssoc?'Remove':'Associate'}">${starSvg}</button>`:''}
       </div>
     </div>`;
   }).join('');
 }
+
 function filterP(q){renderPCards(allPeople.filter(p=>p.username.includes(q.toLowerCase())||p.memo_name.toLowerCase().includes(q.toLowerCase())));}
-function toggleAssoc(username){
-  const idx=myAssocs.indexOf(username);
-  if(idx>-1)myAssocs.splice(idx,1);else myAssocs.push(username);
-  localStorage.setItem('jemo_assocs',JSON.stringify(myAssocs));
+
+function toggleRelish(username){
+  const idx=myRelishes.indexOf(username);
+  let delta=0;
+  if(idx>-1){myRelishes.splice(idx,1);delta=-1;toast('Unrelished');}
+  else{myRelishes.push(username);delta=1;toast('\u2665 Relished!');}
+  relishCounts[username]=(relishCounts[username]||0)+delta;
+  if(relishCounts[username]<0)relishCounts[username]=0;
+  localStorage.setItem('jemo_relishes',JSON.stringify(myRelishes));
+  localStorage.setItem('jemo_relish_counts',JSON.stringify(relishCounts));
   renderPCards(allPeople);
-  toast(idx>-1?'Association removed':'Associated ✓');
 }
 
+function toggleAssoc(username){
+  const idx=myAssocs.indexOf(username);
+  if(idx>-1){myAssocs.splice(idx,1);toast('Association removed');}
+  else{myAssocs.push(username);toast('Associated \u2713');}
+  localStorage.setItem('jemo_assocs',JSON.stringify(myAssocs));
+  renderPCards(allPeople);
+}
+
+async function requestAssoc(username,memoName){
+  if(!user){toast('Sign in to request association');showView('auth');return;}
+  const fromLabel=profile.memo_name+'mo (@'+profile.username+')';
+  await sb.from('inbox_messages').insert({
+    from_name:fromLabel,title:'[ASSOC_REQUEST]',content:'',
+    recipient_username:username,sender_email:null,image_data:null,location_data:null
+  });
+  toast('Association request sent to @'+username);
+}
+
+// TUTORIAL
+function openTut(){document.getElementById('tutOv').classList.add('open');}
+function closeTut(){document.getElementById('tutOv').classList.remove('open');tutShown=true;localStorage.setItem('jemo_tut','1');}
+
+// VIEW PERSON PUBLIC MEMOS
 async function viewPersonMemos(username,memoName){
   document.getElementById('pvFrom').textContent='Public memos from';
   document.getElementById('pvTitle').textContent=memoName+'mo (@'+username+')';
@@ -772,35 +1168,37 @@ async function viewPersonMemos(username,memoName){
   document.getElementById('ovPerson').classList.add('open');
   const {data}=await sb.from('memos').select('*,profiles!inner(username,memo_name)').eq('is_public',true).eq('profiles.username',username).order('created_at',{ascending:false});
   const memos=(data||[]).filter(m=>m.profiles?.username===username);
+  const isJe=user&&user.email===JE_EMAIL;
   if(!memos.length){document.getElementById('pvContent').innerHTML=`<div class="empty"><span class="empty-big">Nothing public yet</span></div>`;return;}
   document.getElementById('pvContent').innerHTML=`<div class="pmgrid">${memos.map(m=>{
+    // Check visibility settings (stored in owner's browser, Je can always see)
+    // For public view we trust the data stored in DB — owner controls blur server-side only if we store it in DB
+    // For now vis settings are client-only — Je account can see all
+    const vis=isJe?{}:(m.vis_settings&&m.vis_settings!=='{}'?JSON.parse(m.vis_settings):{});
     const isFromMe=!m.title.startsWith('[From ');
-    const fromLabel=isFromMe?'from me':'from others';
     const badgeCls=isFromMe?'fbm':'fbo';
     const cardCls=isFromMe?'fm':'fo';
+    const fromLabel=isFromMe?'from '+memoName+'mo':'from others';
     return `<div class="pmcard ${cardCls}">
-      <div class="pmtag"><span id="pd-${m.id}">${fmtD(m.created_at)}</span><span class="fbadge ${badgeCls}">${fromLabel}</span></div>
-      ${m.image_data?`<img style="width:100%;max-height:60px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line)" src="${m.image_data}" alt="">`:''}
-      <div class="pmtitle">${esc(m.title)}</div>
-      <div class="pmbody" id="pb-${m.id}">${esc(m.content)}</div>
-      <div style="margin-top:7px;display:flex;gap:8px;font-size:.49rem;color:var(--muted)">
-        <label style="display:flex;align-items:center;gap:3px;cursor:pointer"><input type="checkbox" onchange="blurEl('pb-${m.id}',this.checked)"> blur content</label>
-        <label style="display:flex;align-items:center;gap:3px;cursor:pointer"><input type="checkbox" onchange="blurEl('pd-${m.id}',this.checked)"> blur date</label>
+      <div class="pmtag">
+        <span>${fmtD(m.created_at)}</span>
+        <span class="fbadge ${badgeCls}">${fromLabel}</span>
       </div>
+      ${m.image_data?`<img style="width:100%;max-height:60px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);cursor:pointer" src="${m.image_data}" style="filter:${vis.hideImage?'blur(8px)':'none'}" alt="" onclick="previewImg('${m.image_data}','${vis.hideImage&&!isJe?\"blurred\":\"\"}')">`:''}
+      <div class="pmtitle">${esc(m.title)}</div>
+      <div class="pmbody">${esc(m.content)}</div>
     </div>`;
   }).join('')}</div>`;
 }
 
-// SEND OVERLAY (from explore)
+// SEND OVERLAY
 function openSendOv(username,memoName){
   sendTarget={username,memo_name:memoName};
   document.getElementById('ovSendName').textContent=memoName+'mo (@'+username+')';
   const ck='jemo_cd_'+username,bk='jemo_ban_'+username,now=Date.now();
   const ban=localStorage.getItem(bk);
-  if(ban&&now<+ban){
-    const h=Math.ceil((+ban-now)/3600000);
-    document.getElementById('ovSendBody').innerHTML=`<div class="coolmsg">⛔ Too many memos. Try again in ~${h}h.</div>`;
-  } else {
+  if(ban&&now<+ban){const h=Math.ceil((+ban-now)/3600000);document.getElementById('ovSendBody').innerHTML=`<div class="coolmsg">\u26d4 Too many memos. Try again in ~${h}h.</div>`;}
+  else{
     document.getElementById('ovSendBody').innerHTML=`
       <div class="fg"><label>Subject</label><input id="soTitle" placeholder="What's your memo about?"></div>
       <div class="fg"><label>Memo</label><textarea id="soBody" placeholder="Write your memo..."></textarea></div>
@@ -813,23 +1211,19 @@ function openSendOv(username,memoName){
         </button>
         <input type="file" id="soImgFile" accept="image/*" style="display:none" onchange="handleSoImg(this)">
       </div>
-      <div class="locinfo" id="soLocInfo">📍 Location attached</div>
-      <div class="imgprev" id="soImgPrev"><img id="soImgThumb"><button class="rimgbtn" onclick="removeSoImg()">×</button></div>
+      <div class="imgprev" id="soImgPrev"><img id="soImgThumb"><button class="rimgbtn" onclick="removeSoImg()">\u00d7</button></div>
       <div style="display:flex;justify-content:flex-end;margin-top:12px">
-        <button class="btn" onclick="sendToUser()">Send Memo →</button>
+        <button class="btn" onclick="sendToUser()">Send Memo \u2192</button>
       </div>`;
     soImg=null;locData['so']=null;
     setTimeout(()=>{const e=document.getElementById('soTitle');if(e)e.focus();},70);
   }
   document.getElementById('ovSend').classList.add('open');
 }
-function closeSendOv(){document.getElementById('ovSend').classList.remove('open');soImg=null;}
+function closeSendOv(){document.getElementById('ovSend').classList.remove('open');soImg=null;memoBackTarget=null;}
 function handleSoImg(input){
-  const file=input.files[0];if(!file)return;
-  if(file.size>2*1024*1024){toast('Max 2MB');return;}
-  const r=new FileReader();
-  r.onload=e=>{soImg=e.target.result;document.getElementById('soImgThumb').src=soImg;document.getElementById('soImgPrev').style.display='block';};
-  r.readAsDataURL(file);
+  const file=input.files[0];if(!file)return;if(file.size>2*1024*1024){toast('Max 2MB');return;}
+  const r=new FileReader();r.onload=e=>{soImg=e.target.result;document.getElementById('soImgThumb').src=soImg;document.getElementById('soImgPrev').style.display='block';};r.readAsDataURL(file);
 }
 function removeSoImg(){soImg=null;document.getElementById('soImgPrev').style.display='none';}
 async function sendToUser(){
@@ -841,10 +1235,9 @@ async function sendToUser(){
   const ck='jemo_cd_'+username,bk='jemo_ban_'+username,sk='jemo_spam_'+username,now=Date.now();
   const last=localStorage.getItem(ck);
   if(last&&now-+last<CD){
-    const s=Math.ceil((CD-(now-+last))/1000);
-    const sc=(+(localStorage.getItem(sk)||0))+1;localStorage.setItem(sk,sc);
-    if(sc>=3){localStorage.setItem(bk,now+BAN);localStorage.removeItem(sk);toast('⛔ Banned 24h.');renderExplorePanel();return;}
-    toast(`⏳ Wait ${s}s`);return;
+    const s=Math.ceil((CD-(now-+last))/1000);const sc=(+(localStorage.getItem(sk)||0))+1;localStorage.setItem(sk,sc);
+    if(sc>=3){localStorage.setItem(bk,now+BAN);localStorage.removeItem(sk);toast('\u26d4 Banned 24h.');renderExplorePanel();return;}
+    toast(`\u23f3 Wait ${s}s`);return;
   }
   localStorage.removeItem(sk);
   const senderEmail=(username===JE_UN&&user)?user.email:null;
@@ -856,8 +1249,7 @@ async function sendToUser(){
     image_data:soImg||null,location_data:loc?JSON.stringify(loc):null
   });
   if(error){toast('Error: '+error.message);return;}
-  localStorage.setItem(ck,now);soImg=null;locData['so']=null;
-  closeSendOv();toast('Memo sent to @'+username+' ✓');
+  localStorage.setItem(ck,now);soImg=null;locData['so']=null;closeSendOv();toast('Memo sent to @'+username+' \u2713');
 }
 
 // SEND JE PANEL
@@ -865,34 +1257,27 @@ function renderSjePanel(){
   const p=document.getElementById('panel-sje');
   const ck='jemo_cd_'+JE_UN,bk='jemo_ban_'+JE_UN,now=Date.now();
   const ban=localStorage.getItem(bk);
-  if(ban&&now<+ban){const h=Math.ceil((+ban-now)/3600000);p.innerHTML=`<div class="sh">Send Je a Memo</div><div class="empty"><span class="empty-big">⛔ Cooldown</span>~${h} hour(s) remaining.</div>`;return;}
-  p.innerHTML=`
-    <div class="sh">Send Je a Memo</div>
-    <div class="sjwrap">
-      <span class="sjlbl">MEMO FOR JE</span>
-      <div class="fg"><label>Subject</label><input id="sjTitle" placeholder="What's your memo about?"></div>
-      <div class="fg"><label>Memo</label><textarea id="sjBody" placeholder="Write your memo to Je..."></textarea></div>
-      <div class="arow">
-        <button class="abtn locbtn" id="sjLocBtn" onclick="toggleLoc('sj')">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Location
-        </button>
-        <button class="abtn" onclick="document.getElementById('sjImgFile').click()">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Add Image
-        </button>
-        <input type="file" id="sjImgFile" accept="image/*" style="display:none" onchange="handleSjImg(this)">
-      </div>
-      <div class="locinfo" id="sjLocInfo">📍 Location attached</div>
-      <div class="imgprev" id="sjImgPrev"><img id="sjImgThumb"><button class="rimgbtn" onclick="removeSjImg()">×</button></div>
-      <div style="display:flex;justify-content:flex-end;margin-top:13px">
-        <button class="btn" onclick="sendSjMemo()">Send to Je →</button>
-      </div>
-    </div>`;
+  if(ban&&now<+ban){const h=Math.ceil((+ban-now)/3600000);p.innerHTML=`<div class="sh">Send Je a Memo</div><div class="empty"><span class="empty-big">\u26d4 Cooldown</span>~${h} hour(s) remaining.</div>`;return;}
+  p.innerHTML=`<div class="sh">Send Je a Memo</div><div class="sjwrap"><span class="sjlbl">MEMO FOR JE</span>
+    <div class="fg"><label>Subject</label><input id="sjTitle" placeholder="What's your memo about?"></div>
+    <div class="fg"><label>Memo</label><textarea id="sjBody" placeholder="Write your memo to Je..."></textarea></div>
+    <div class="arow">
+      <button class="abtn locbtn" id="sjLocBtn" onclick="toggleLoc('sj')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>Location
+      </button>
+      <button class="abtn" onclick="document.getElementById('sjImgFile').click()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>Add Image
+      </button>
+      <input type="file" id="sjImgFile" accept="image/*" style="display:none" onchange="handleSjImg(this)">
+    </div>
+    <div class="imgprev" id="sjImgPrev"><img id="sjImgThumb"><button class="rimgbtn" onclick="removeSjImg()">\u00d7</button></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:13px">
+      <button class="btn" onclick="sendSjMemo()">Send to Je \u2192</button>
+    </div>
+  </div>`;
   sjImg=null;locData['sj']=null;
 }
-function handleSjImg(input){
-  const file=input.files[0];if(!file)return;if(file.size>2*1024*1024){toast('Max 2MB');return;}
-  const r=new FileReader();r.onload=e=>{sjImg=e.target.result;document.getElementById('sjImgThumb').src=sjImg;document.getElementById('sjImgPrev').style.display='block';};r.readAsDataURL(file);
-}
+function handleSjImg(i){const file=i.files[0];if(!file)return;if(file.size>2*1024*1024){toast('Max 2MB');return;}const r=new FileReader();r.onload=e=>{sjImg=e.target.result;document.getElementById('sjImgThumb').src=sjImg;document.getElementById('sjImgPrev').style.display='block';};r.readAsDataURL(file);}
 function removeSjImg(){sjImg=null;document.getElementById('sjImgPrev').style.display='none';}
 async function sendSjMemo(){
   const title=document.getElementById('sjTitle')?.value.trim();
@@ -900,57 +1285,54 @@ async function sendSjMemo(){
   if(!title&&!body){toast('Write something!');return;}
   const ck='jemo_cd_'+JE_UN,bk='jemo_ban_'+JE_UN,sk='jemo_spam_'+JE_UN,now=Date.now();
   const last=localStorage.getItem(ck);
-  if(last&&now-+last<CD){
-    const s=Math.ceil((CD-(now-+last))/1000);
-    const sc=(+(localStorage.getItem(sk)||0))+1;localStorage.setItem(sk,sc);
-    if(sc>=3){localStorage.setItem(bk,now+BAN);localStorage.removeItem(sk);toast('⛔ Banned 24h.');renderSjePanel();return;}
-    toast(`⏳ Wait ${s}s`);return;
-  }
+  if(last&&now-+last<CD){const s=Math.ceil((CD-(now-+last))/1000);const sc=(+(localStorage.getItem(sk)||0))+1;localStorage.setItem(sk,sc);if(sc>=3){localStorage.setItem(bk,now+BAN);localStorage.removeItem(sk);toast('\u26d4 Banned 24h.');renderSjePanel();return;}toast(`\u23f3 Wait ${s}s`);return;}
   localStorage.removeItem(sk);
   const senderEmail=user?user.email:null;
   const fromName=profile?profile.memo_name+'mo (@'+profile.username+')':'A Jemo user';
   const loc=locData['sj'];
-  const {error}=await sb.from('inbox_messages').insert({
-    from_name:fromName,title:title||'(no subject)',content:body,
-    recipient_username:JE_UN,sender_email:senderEmail,
-    image_data:sjImg||null,location_data:loc?JSON.stringify(loc):null
-  });
+  const {error}=await sb.from('inbox_messages').insert({from_name:fromName,title:title||'(no subject)',content:body,recipient_username:JE_UN,sender_email:senderEmail,image_data:sjImg||null,location_data:loc?JSON.stringify(loc):null});
   if(error){toast('Error: '+error.message);return;}
   localStorage.setItem(ck,now);sjImg=null;locData['sj']=null;
   document.getElementById('sjTitle').value='';document.getElementById('sjBody').value='';
-  toast('Memo sent to Je ✓');
+  toast('Memo sent to Je \u2713');
 }
+
+// IMAGE PREVIEW
+function previewImg(src,blurState){
+  const ov=document.getElementById('imgOv');
+  const img=document.getElementById('imgOvImg');
+  const nuhuh=document.getElementById('nuhuh');
+  img.src=src;
+  if(blurState==='blurred'){
+    img.style.filter='blur(12px)';
+    nuhuh.classList.add('show');
+  } else {
+    img.style.filter='none';
+    nuhuh.classList.remove('show');
+  }
+  ov.classList.add('open');
+}
+function closeImgOv(){document.getElementById('imgOv').classList.remove('open');}
 
 // FAB
-function toggleQ(){
-  quickOpen=!quickOpen;
-  document.getElementById('qp').classList.toggle('open',quickOpen);
-  document.getElementById('fabBtn').classList.toggle('open',quickOpen);
-  if(quickOpen){
-    const now=new Date();
-    document.getElementById('qpdt').textContent=now.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' · '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-    setTimeout(()=>document.getElementById('qpbody').focus(),45);
-  }
-}
+function toggleQ(){quickOpen=!quickOpen;document.getElementById('qp').classList.toggle('open',quickOpen);document.getElementById('fabBtn').classList.toggle('open',quickOpen);if(quickOpen){const now=new Date();document.getElementById('qpdt').textContent=now.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' \u00b7 '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});setTimeout(()=>document.getElementById('qpbody').focus(),45);}}
 function closeQ(){quickOpen=false;document.getElementById('qp').classList.remove('open');document.getElementById('fabBtn').classList.remove('open');document.getElementById('qptitle').value='';document.getElementById('qpbody').value='';}
 async function saveQ(){
-  const title=document.getElementById('qptitle').value.trim();
-  const body=document.getElementById('qpbody').value.trim();
+  const title=document.getElementById('qptitle').value.trim();const body=document.getElementById('qpbody').value.trim();
   if(!body&&!title){toast('Write something!');return;}
-  const now=new Date();
-  const auto=title||`Quick memo · ${now.toLocaleDateString('en-US',{month:'short',day:'numeric'})} ${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}`;
+  const now=new Date();const auto=title||`Quick memo \u00b7 ${now.toLocaleDateString('en-US',{month:'short',day:'numeric'})} ${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}`;
   const {data,error}=await sb.from('memos').insert({user_id:user.id,title:auto,content:body,is_public:false}).select().single();
   if(error){toast('Error: '+error.message);return;}
-  myMemos.unshift(data);closeQ();toast('Quick memo saved! ✓');
-  if(activePanel==='memos')renderMemosPanel();
+  myMemos.unshift(data);closeQ();toast('Quick memo saved! \u2713');if(activePanel==='memos')renderMemosPanel();
 }
 
-async function signOut(){await sb.auth.signOut();user=null;profile=null;myMemos=[];inbox=[];showView('landing');}
+async function signOut(){clearIntervals();await sb.auth.signOut();user=null;profile=null;myMemos=[];inbox=[];showView('landing');}
 
 function fmtD(ts){return ts?new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):''; }
 function fmtDF(ts){return ts?new Date(ts).toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}):''; }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2700);}
+
 </script>
 </body>
 </html>
