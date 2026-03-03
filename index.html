@@ -39,12 +39,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .sbox::before{content:'MEMO FOR JE';position:absolute;top:-10px;left:18px;background:var(--card);padding:0 7px;font-size:.55rem;letter-spacing:.22em;color:var(--amber);}
 
 /* ENVELOPE COUNTER */
-.env-counter{position:fixed;bottom:34px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--ink);padding:10px 18px;box-shadow:var(--shadow);z-index:50;opacity:0;transition:opacity .4s;pointer-events:none;}
-.env-counter.show{opacity:1;pointer-events:all;}
-.env-fly{font-size:1.4rem;animation:envfly 2s ease-in-out infinite;}
-@keyframes envfly{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-6px) rotate(5deg);}}
-.env-count{font-size:.62rem;color:var(--ink);}
-.env-badge{background:#c0392b;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:bold;}
 
 /* ATTACH ROW */
 .arow{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
@@ -298,7 +292,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .loading{display:flex;align-items:center;justify-content:center;height:150px;font-size:.66rem;color:var(--muted);letter-spacing:.14em;}
 .coolmsg{font-size:.67rem;color:#8B3C3C;line-height:1.8;padding:14px;text-align:center;}
 
-@media(min-width:641px){#fab{bottom:32px;right:28px;}.toast{bottom:32px;}.env-counter{bottom:32px;}}
+@media(min-width:641px){#fab{bottom:32px;right:28px;}.toast{bottom:32px;}}
 @media(max-width:640px){.dtabs{display:none;}.mobnav{display:block;}.appnav{padding:10px 14px;}.appcont{padding:18px 14px 88px;}.fr{grid-template-columns:1fr;}.jlogo{font-size:3.8rem;}.sbox,.wp,.sjwrap{padding:20px;}.ovc{padding:22px;}}
 </style>
 
@@ -323,12 +317,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   </div>
 </div>
 
-<!-- ENVELOPE COUNTER (logged-out memo back) -->
-<div class="env-counter" id="envCounter">
-  <span class="env-fly">\u2709\ufe0f</span>
-  <span class="env-count">Memos waiting for you</span>
-  <span class="env-badge" id="envBadge">0</span>
-</div>
 
 <!-- VIEWS -->
 <div class="view active" id="view-landing"></div>
@@ -477,7 +465,6 @@ let myRelishes = JSON.parse(localStorage.getItem('jemo_relishes')||'[]');
 let relishCounts = JSON.parse(localStorage.getItem('jemo_relish_counts')||'{}');
 let wpImg=null, soImg=null, sjImg=null;
 // memo-back storage (logged-out users)
-let memoBackStore = JSON.parse(localStorage.getItem('jemo_memoback')||'[]');
 // visibility settings per memo
 let memoVisibility = JSON.parse(localStorage.getItem('jemo_vis')||'{}');
 let tutShown = localStorage.getItem('jemo_tut')==='1';
@@ -485,35 +472,36 @@ let tutShown = localStorage.getItem('jemo_tut')==='1';
 let inboxInterval=null, exploreInterval=null;
 
 // INTRO — uses timezone offset not just hour for accuracy
-function showIntro(name) {
-  // getHours() returns local browser time — correct by spec
-  const h = new Date().getHours();
+function getGreetingPhrase(name) {
+  const now = new Date();
+  const h = now.getHours();
   let phrase;
-  if(h>=5&&h<12) phrase='Good morning';
-  else if(h>=12&&h<15) phrase='Good afternoon';
-  else if(h>=15&&h<18) phrase='Good day';
-  else if(h>=18&&h<21) phrase='Good evening';
-  else if(h>=21||h<2) phrase='Burning midnight oil?';
-  else phrase="Still up?";
-  const greeting = name ? phrase+', '+name+'.' : phrase+'.';
-  document.getElementById('igreet').textContent = greeting;
-  // Personalised sub text
-  const isEl = document.querySelector('.is');
-  if(isEl) isEl.textContent = name ? 'welcome back' : 'welcome to';
+  if (h >= 5 && h < 12) phrase = 'Good morning';
+  else if (h >= 12 && h < 14) phrase = 'Good afternoon';
+  else if (h >= 14 && h < 18) phrase = 'Good day';
+  else if (h >= 18 && h < 22) phrase = 'Good evening';
+  else if (h >= 22 || h < 2) phrase = 'Burning midnight oil?';
+  else phrase = 'Still up?';
+  return name ? phrase + ', ' + name + '.' : phrase + '.';
+}
+function showIntro(name) {
+  document.getElementById('igreet').textContent = getGreetingPhrase(name);
   const intro = document.getElementById('intro');
   intro.classList.remove('hide');
-  intro.querySelectorAll('.ig,.is,.il,.idots').forEach(el=>{
-    el.style.animation='none'; void el.offsetHeight; el.style.animation='';
+  // Reset animations
+  intro.querySelectorAll('.ig,.is,.il,.idots').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight; // reflow
+    el.style.animation = '';
   });
-  setTimeout(()=>intro.classList.add('hide'), 2800);
+  setTimeout(() => intro.classList.add('hide'), 2600);
 }
-showIntro(null); // first load — personalised greeting shown again once profile loads
+showIntro(null); // first load, no name
 
 // INIT
 (async()=>{
   showView('landing');
-  updateEnvCounter();
-
+  
   sb.auth.onAuthStateChange(async(ev,session)=>{
     if(ev==='SIGNED_IN'&&session?.user&&(!user||user.id!==session.user.id)){
       user=session.user;
@@ -558,25 +546,65 @@ async function loadProfile(){
 async function loadMyMemos(){
   const {data}=await sb.from('memos').select('*').eq('user_id',user.id).order('created_at',{ascending:false});
   myMemos=data||[];
-  // Sync vis_settings from DB into local cache
-  (myMemos||[]).forEach(m=>{if(m.vis_settings&&m.vis_settings!=='{}'){try{memoVisibility[m.id]=JSON.parse(m.vis_settings);}catch(e){}}});
 }
 async function loadInbox(){
   const {data}=await sb.from('inbox_messages').select('*').eq('recipient_username',profile.username).order('created_at',{ascending:false}).limit(60);
   inbox=data||[];
 }
 
-// ENVELOPE COUNTER (for logged-out memo-back)
-function updateEnvCounter(){
-  const count = memoBackStore.length;
-  const el = document.getElementById('envCounter');
-  const badge = document.getElementById('envBadge');
-  if(count > 0 && !user){
-    badge.textContent = count;
-    el.classList.add('show');
-  } else {
-    el.classList.remove('show');
-  }
+
+// INIT
+(async()=>{
+  showView('landing');
+  
+  sb.auth.onAuthStateChange(async(ev,session)=>{
+    if(ev==='SIGNED_IN'&&session?.user&&(!user||user.id!==session.user.id)){
+      user=session.user;
+      history.replaceState(null,'',window.location.pathname);
+      await loadProfile();
+    } else if(ev==='SIGNED_OUT'){
+      user=null;profile=null;
+      clearIntervals();
+      showView('landing');
+    }
+  });
+
+  const {data:{session}}=await sb.auth.getSession();
+  if(session?.user){ user=session.user; await loadProfile(); }
+})();
+
+function clearIntervals(){
+  if(inboxInterval){clearInterval(inboxInterval);inboxInterval=null;}
+  if(exploreInterval){clearInterval(exploreInterval);exploreInterval=null;}
+}
+
+async function loadProfile(){
+  try{
+    const {data}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
+    if(!data){showView('onboard');return;}
+    profile=data;
+    await Promise.all([loadMyMemos(),loadInbox()]);
+    // show personalised greeting with user's name
+    showIntro(profile.memo_name);
+    setTimeout(()=>{showView('app');renderNav();renderMemosPanel();},700);
+    // auto-refresh inbox every 20s, explore every 30s
+    clearIntervals();
+    inboxInterval = setInterval(async()=>{
+      if(profile&&activePanel==='inbox'){await loadInbox();renderInboxPanel();updateIBadge();}
+      else if(profile){await loadInbox();updateIBadge();}
+    }, 20000);
+    exploreInterval = setInterval(()=>{
+      if(activePanel==='explore') renderExplorePanel();
+    }, 30000);
+  }catch(e){console.error(e);showView('onboard');}
+}
+async function loadMyMemos(){
+  const {data}=await sb.from('memos').select('*').eq('user_id',user.id).order('created_at',{ascending:false});
+  myMemos=data||[];
+}
+async function loadInbox(){
+  const {data}=await sb.from('inbox_messages').select('*').eq('recipient_username',profile.username).order('created_at',{ascending:false}).limit(60);
+  inbox=data||[];
 }
 
 // VIEWS
@@ -584,7 +612,7 @@ function showView(n){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+n).classList.add('active');
   document.getElementById('fab').style.display=n==='app'?'block':'none';
-  if(n==='landing'){renderLanding();updateEnvCounter();}
+  if(n==='landing'){renderLanding();}
   if(n==='auth')renderAuth('signin');
   if(n==='onboard')renderOnboard();
 }
@@ -618,50 +646,8 @@ function renderLanding(){
         <button class="btn" onclick="sendToJe()">Send Memo \u2192</button>
       </div>
     </div>
-    ${memoBackStore.length > 0 ? renderMemoBackSection() : ''}
   `;
   locData['l']=null;
-}
-
-function renderMemoBackSection(){
-  return `
-    <div style="width:100%;max-width:500px;margin-top:28px">
-      <div class="sh">Memo replies saved for you</div>
-      ${memoBackStore.map((m,i)=>`
-        <div style="background:var(--card);border:1.5px solid var(--amber);padding:14px;margin-bottom:8px;position:relative">
-          <div style="font-size:.52rem;color:var(--amber);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px">Reply from Je · ${m.date}</div>
-          <div style="font-family:'Playfair Display',serif;font-size:.9rem;margin-bottom:3px">${esc(m.title)}</div>
-          <div style="font-size:.63rem;color:rgba(24,17,10,.6)">${esc(m.content)}</div>
-          <button onclick="dismissMemoBack(${i})" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:.6rem;color:var(--muted)">dismiss</button>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-function dismissMemoBack(idx){
-  memoBackStore.splice(idx,1);
-  localStorage.setItem('jemo_memoback',JSON.stringify(memoBackStore));
-  renderLanding();updateEnvCounter();
-}
-
-// LOCATION
-function toggleLoc(prefix){
-  const btn=document.getElementById(prefix+'LocBtn');
-  if(!btn)return;
-  if(locData[prefix]){
-    locData[prefix]=null;btn.classList.remove('on');
-    toast('Location removed');return;
-  }
-  const origText=btn.innerHTML;
-  btn.textContent='Getting...';
-  if(!navigator.geolocation){toast('Geolocation not supported');return;}
-  navigator.geolocation.getCurrentPosition(pos=>{
-    locData[prefix]={lat:pos.coords.latitude.toFixed(5),lng:pos.coords.longitude.toFixed(5)};
-    const ico=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`;
-    btn.innerHTML=ico;btn.classList.add('on');
-    toast('Location attached \u2713');
-  },()=>{btn.innerHTML=origText;toast('Location denied');});
 }
 
 async function sendToJe(){
@@ -901,8 +887,6 @@ function setVis(memoId,key,val){
   if(!memoVisibility[memoId])memoVisibility[memoId]={};
   memoVisibility[memoId][key]=val;
   localStorage.setItem('jemo_vis',JSON.stringify(memoVisibility));
-  // Persist to DB so public viewers see the blur settings
-  sb.from('memos').update({vis_settings:JSON.stringify(memoVisibility[memoId])}).eq('id',memoId).then(()=>{});
 }
 
 function handleWpImg(input){
@@ -916,7 +900,7 @@ async function saveMemo(t,c,pub,img){
   const isPublic=pub??document.getElementById('nPublic')?.checked??false;
   const imgData=img??wpImg??null;
   if(!title&&!content){toast('Write something first!');return;}
-  const {data,error}=await sb.from('memos').insert({user_id:user.id,title:title||'untitled',content,is_public:isPublic,image_data:imgData,vis_settings:'{}' }).select().single();
+  const {data,error}=await sb.from('memos').insert({user_id:user.id,title:title||'untitled',content,is_public:isPublic,image_data:imgData}).select().single();
   if(error){toast('Error: '+error.message);return;}
   myMemos.unshift(data);wpImg=null;toast('Memo pinned! \u2713');renderMemosPanel();
 }
@@ -989,17 +973,20 @@ async function acceptAssocReq(msgId,fromName){
 // MEMO BACK
 let memoBackTarget=null;
 function openMemoBack(fromName,msgId){
-  memoBackTarget={fromName,msgId};
+  const atMatch=fromName.match(/@([\w]+)\)/);
+  const senderUsername=atMatch?atMatch[1]:null;
+  memoBackTarget={fromName,msgId,senderUsername};
   document.getElementById('ovSendName').textContent=fromName;
+  const canSend=!!senderUsername;
   document.getElementById('ovSendBody').innerHTML=`
     <p style="font-size:.64rem;color:var(--muted);margin-bottom:14px;line-height:1.7">
-      ${user?'Send a memo back. They\'ll see it in their inbox.':'You\'re not logged in — your reply will be saved locally on this device until they check back.'}
+      ${canSend?'Send a memo back \u2014 goes straight to their inbox.':'This sender has no account, so there is no inbox to reply to.'}
     </p>
-    <div class="fg"><label>Subject</label><input id="mbTitle" placeholder="Re: ..."></div>
+    ${canSend?`<div class="fg"><label>Subject</label><input id="mbTitle" placeholder="Re: ..."></div>
     <div class="fg"><label>Memo</label><textarea id="mbBody" placeholder="Write your reply..."></textarea></div>
     <div style="display:flex;justify-content:flex-end;margin-top:12px">
       <button class="btn" onclick="sendMemoBack()">Send Back \u2192</button>
-    </div>
+    </div>`:'<div style="text-align:center;padding:10px 0"><button class="bk" onclick="closeSendOv()">Close</button></div>'}
   `;
   document.getElementById('ovSend').classList.add('open');
 }
@@ -1008,27 +995,16 @@ async function sendMemoBack(){
   const body=document.getElementById('mbBody')?.value.trim();
   if(!title&&!body){toast('Write something!');return;}
   if(!memoBackTarget)return;
-  const fromName=memoBackTarget.fromName;
+  const {senderUsername}=memoBackTarget;
+  if(!senderUsername){closeSendOv();return;}
   const fromLabel=profile?profile.memo_name+'mo (@'+profile.username+')':'Je (reply)';
-
-  // Try to find username matching fromName
-  const {data:recip}=await sb.from('profiles').select('username').ilike('memo_name',fromName).maybeSingle();
-  if(recip?.username){
-    const senderEmail=(recip.username===JE_UN&&user)?user.email:null;
-    const {error}=await sb.from('inbox_messages').insert({
-      from_name:fromLabel,title:title||'(no subject)',content:body,
-      recipient_username:recip.username,sender_email:senderEmail,
-      image_data:null,location_data:null
-    });
-    if(error){toast('Error: '+error.message);return;}
-    toast('Memo back sent \u2713');
-  } else {
-    // save locally for anonymous/unregistered
-    memoBackStore.push({from:fromLabel,to:fromName,title:title||'(no subject)',content:body,date:fmtD(new Date().toISOString())});
-    localStorage.setItem('jemo_memoback',JSON.stringify(memoBackStore));
-    updateEnvCounter();
-    toast('Saved locally — they\'ll see it if they check back \u2713');
-  }
+  const {error}=await sb.from('inbox_messages').insert({
+    from_name:fromLabel,title:title||'(no subject)',content:body,
+    recipient_username:senderUsername,sender_email:null,
+    image_data:null,location_data:null
+  });
+  if(error){toast('Error: '+error.message);return;}
+  toast('Memo back sent to @'+senderUsername+' \u2713');
   closeSendOv();
 }
 
@@ -1057,8 +1033,9 @@ async function renderExplorePanel(){
   const p=document.getElementById('panel-explore');
   const prevSearch=document.getElementById('psearch')?.value||'';
   p.innerHTML=`<div class="sh">Explore memo spaces</div><div class="loading">Loading...</div>`;
-  const {data}=await sb.from('profiles').select('username,memo_name,is_curtained').order('username');
+  const {data}=await sb.from('profiles').select('username,memo_name,is_curtained,relish_count').order('username');
   allPeople=data||[];
+  allPeople.forEach(pr=>{ if(pr.relish_count!=null) relishCounts[pr.username]=pr.relish_count; });
   buildExplore(allPeople,prevSearch);
   // Show tutorial for new users who haven't seen it
   if(!tutShown){openTut();}
@@ -1135,6 +1112,8 @@ function toggleRelish(username){
   if(relishCounts[username]<0)relishCounts[username]=0;
   localStorage.setItem('jemo_relishes',JSON.stringify(myRelishes));
   localStorage.setItem('jemo_relish_counts',JSON.stringify(relishCounts));
+  sb.from('profiles').update({relish_count:relishCounts[username]}).eq('username',username).then(()=>{});
+  const pp=allPeople.find(p=>p.username===username); if(pp) pp.relish_count=relishCounts[username];
   renderPCards(allPeople);
 }
 
@@ -1174,7 +1153,7 @@ async function viewPersonMemos(username,memoName){
     // Check visibility settings (stored in owner's browser, Je can always see)
     // For public view we trust the data stored in DB — owner controls blur server-side only if we store it in DB
     // For now vis settings are client-only — Je account can see all
-    const vis=isJe?{}:(m.vis_settings&&m.vis_settings!=='{}'?JSON.parse(m.vis_settings):{});
+    const vis=isJe?{}:{};
     const isFromMe=!m.title.startsWith('[From ');
     const badgeCls=isFromMe?'fbm':'fbo';
     const cardCls=isFromMe?'fm':'fo';
@@ -1184,7 +1163,7 @@ async function viewPersonMemos(username,memoName){
         <span>${fmtD(m.created_at)}</span>
         <span class="fbadge ${badgeCls}">${fromLabel}</span>
       </div>
-      ${m.image_data?`<img style="width:100%;max-height:60px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);cursor:pointer" src="${m.image_data}" alt="" onclick="previewImg('${m.image_data}',vis.hideImage&&!isJe?'blurred':'')">`:''}
+      ${m.image_data?`<img style="width:100%;max-height:60px;object-fit:cover;margin-bottom:5px;border:1px solid var(--line);cursor:pointer" src="${m.image_data}" alt="" onclick="previewImg('${m.image_data}','')">`:''}
       <div class="pmtitle">${esc(m.title)}</div>
       <div class="pmbody">${esc(m.content)}</div>
     </div>`;
